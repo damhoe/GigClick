@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/title_group_mode"
+        android:id="@+id/item_storage">
+
+        <menu>
+
+            <group android:id="@+id/group_mode"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@id/navigation_metronome"
+                    android:title="@string/title_metronome"
+                    android:icon="@drawable/ic_metronome_primary_24dp"
+                    />
+
+                <item
+                    android:id="@id/navigation_live"
+                    android:title="@string/title_live"
+                    android:icon="@drawable/ic_stage_primary_24dp"
+                    />
+
+                <item
+                    android:id="@+id/navigation_complex"
+                    android:title="@string/title_complex"
+                    android:icon="@drawable/ic_complex_primary_24dp"
+                    />
+
+            </group>
+
+        </menu>
+
+    </item>
+
+    <group android:id="@+id/group_actions"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@id/navigation_library"
+            android:title="@string/title_library"
+            android:icon="@drawable/ic_library_black_24dp" />
+
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/group_settings">
+
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_round_settings_24dp"
+            android:title="@string/title_settings" />
+
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_round_info_24dp"
+            android:title="@string/title_about"/>
+
+    </group>
+
+</menu>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+            <stroke
+                android:color="@android:color/transparent"
+                android:dashWidth="1.5dp"
+                android:dashGap="17dp"
+                android:width="3dp"/>
+            <solid android:color="#0fff"/>
+
+            <size
+                android:width="138dp"
+                android:height="138dp"/>
+        </shape>
+    </item>
+
+    <item
+        android:id="@+id/ring_shadow">
+        <shape android:shape="ring"
+            android:innerRadius="62.5dp"
+            android:thickness="3dp"
+            android:useLevel="false">
+            <gradient
+                android:type="linear"
+                android:startColor="@color/colorAccentTransparent"
+                android:endColor="@android:color/transparent"
+                android:angle="-90"
+                />
+        </shape>
+    </item>
+
+    <item
+        android:id="@+id/ring">
+        <shape android:shape="ring"
+            android:innerRadius="63.5dp"
+            android:thickness="1dp"
+            android:useLevel="false">
+            <gradient
+                android:type="linear"
+                android:startColor="@color/colorAccentLight"
+                android:endColor="@android:color/transparent"
+                android:angle="-90"
+                />
+        </shape>
+    </item>
+
+</layer-list>

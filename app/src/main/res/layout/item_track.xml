@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:background="@drawable/track_background_color_state"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/text_number"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:textAlignment="center"
+        android:text="@string/example_number"
+        android:textSize="16sp"
+        android:textColor="@color/colorTextDisabled"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_title"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/text_number"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        />
+
+    <TextView
+        android:id="@+id/text_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_comment"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@id/text_title"
+        app:layout_constraintTop_toBottomOf="@id/text_title"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorTextWeak"
+        />
+
+    <TextView
+        android:id="@+id/label_bpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_bpm"
+        android:textSize="10sp"
+        android:textColor="@color/colorTextDisabled"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintStart_toStartOf="@id/text_bpm"
+        app:layout_constraintEnd_toEndOf="@id/text_bpm"
+        app:layout_constraintBottom_toTopOf="@id/text_bpm"
+
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/text_bpm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/example_bpm"
+        android:ems="2"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/text_comment"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

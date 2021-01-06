@@ -1,0 +1,109 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="GigClickTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="fontFamily">@font/domine</item>
+        <item name="android:textColor">@color/text_color_state</item>
+        <item name="windowActionBar">false</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
+        <item name="buttonStyle">@style/AppThemeDark.Button</item>
+
+        <item name="colorNavigationItem">@color/menu_item_color_state</item>
+        <item name="colorNavigationItemSelected">@color/colorTextSecondary</item>
+        <item name="drawableNavigationItemBackground">@drawable/menu_background_color_state</item>
+
+    </style>
+    
+    <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="background">@color/colorBackgroundLight</item>
+        <item name="itemTextAppearanceActive">@style/ActiveText</item>
+        <item name="itemTextAppearanceInactive">@style/InactiveText</item>
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorTextWeak</item>
+    </style>
+
+    <style name="ActiveText">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="InactiveText">
+        <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="OverflowTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <item name="background">@drawable/menu_background_color_state</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="ToolbarThemeLight" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="FABDark" parent="Widget.Design.FloatingActionButton">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FABInvisible" parent="Widget.Design.FloatingActionButton">
+        <item name="colorAccent">@android:color/transparent</item>
+        <item name="background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="ImageButtonInvisible" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/invisible_button_background   </item>
+        <item name="colorControlHighlight">@color/colorHighlight</item>
+        <item name="tint">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="AppThemeDark.Button" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/colorBackgroundLightOverlay</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="AppThemeDark.TextButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeDark.CompoundButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/compound_button_background</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+
+    <style name="NavigationDrawerStyle" parent="Widget.Design.NavigationView">
+
+        <item name="android:textSize">16sp</item><!-- text size in menu-->
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="colorControlNormal">@color/colorBackgroundDark</item>
+
+        <!-- item size in menu-->
+        <item name="android:listPreferredItemHeightSmall">48dp</item>
+        <item name="listPreferredItemHeightSmall">48dp</item>
+
+        <!-- item padding left in menu-->
+        <item name="android:listPreferredItemPaddingLeft">16dp</item>
+        <item name="listPreferredItemPaddingLeft">16dp</item>
+
+        <!-- item padding right in menu-->
+        <item name="android:listPreferredItemPaddingRight">8dp</item>
+        <item name="listPreferredItemPaddingRight">8dp</item>
+
+
+        <item name="itemIconTint">?attr/colorNavigationItem</item>
+        <item name="itemTextColor">?attr/colorNavigationItem</item>
+        <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
+    </style>
+
+</resources>

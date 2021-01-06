@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/rotary_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rotary_knob_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/rotary_foreground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rotary_knob_foreground"
+        app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+        app:layout_constraintStart_toStartOf="@id/rotary_background"
+        app:layout_constraintEnd_toEndOf="@id/rotary_background"
+        app:layout_constraintTop_toTopOf="@id/rotary_background"
+        />
+
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rotary_knob_dot"
+        app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+        app:layout_constraintEnd_toEndOf="@id/rotary_background"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="@id/rotary_background"
+        app:layout_constraintTop_toTopOf="@id/rotary_background" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
