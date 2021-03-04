@@ -5,7 +5,10 @@
         <item>@font/alice</item>
         <item>@font/andika</item>
         <item>@font/baloo</item>
+        <item>@font/crimson_text</item>
         <item>@font/domine</item>
+        <item>@font/overlock</item>
+        <item>@font/podkova</item>
         <item>@font/ubuntu_light</item>
     </array>
 </resources>

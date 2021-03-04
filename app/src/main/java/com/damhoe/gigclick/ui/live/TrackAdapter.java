@@ -1,15 +1,11 @@
 package com.damhoe.gigclick.ui.live;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.damhoe.gigclick.INotifyItemClickListener;
@@ -18,7 +14,6 @@ import com.damhoe.gigclick.Track;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
 

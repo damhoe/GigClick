@@ -14,10 +14,6 @@
             android:id="@+id/details_set_action"
             app:destination="@id/setFragment"
             app:popUpTo="@id/navigation_library"
-            app:enterAnim="@anim/enter_from_bottom_offset"
-            app:exitAnim="@anim/fade_out"
-            app:popExitAnim="@anim/exit_to_bottom"
-            app:popEnterAnim="@anim/fade_in"
             />
     </fragment>
 
@@ -29,24 +25,20 @@
         <action
             android:id="@+id/action_navigation_metronome_to_divisionDialog"
             app:destination="@id/divisionDialog"
-            app:enterAnim="@anim/enter_from_bottom"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/exit_to_bottom"
             app:popUpTo="@id/navigation_metronome" />
         <action
             android:id="@+id/action_navigation_metronome_to_practiceDialog"
             app:destination="@id/practiceDialog"
-            app:enterAnim="@anim/enter_from_bottom"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/exit_to_bottom"
             app:popUpTo="@id/navigation_metronome" />
+        <action
+            android:id="@+id/action_navigation_metronome_to_soundDialog"
+            app:destination="@id/soundDialog"
+            app:popUpTo="@id/navigation_metronome"/>
     </fragment>
 
     <fragment
         android:id="@+id/navigation_edit"
-        android:name="com.damhoe.gigclick.ui.track.EditFragment"
+        android:name="com.damhoe.gigclick.ui.track.EditTrackFragment"
         android:label="@string/title_edit"
         tools:layout="@layout/fragment_edit" />
     <fragment
@@ -85,10 +77,7 @@
         <action
             android:id="@+id/action_setFragment_to_trackFragment"
             app:destination="@id/trackFragment"
-            app:enterAnim="@anim/enter_from_bottom_offset"
-            app:exitAnim="@anim/fade_out"
-            app:popExitAnim="@anim/exit_to_bottom"
-            app:popEnterAnim="@anim/fade_in" />
+            />
     </fragment>
 
     <fragment
@@ -103,10 +92,7 @@
         <action
             android:id="@+id/action_trackFragment_to_editTrackFragment"
             app:destination="@id/editTrackFragment"
-            app:enterAnim="@anim/enter_from_bottom_offset"
-            app:exitAnim="@anim/fade_out"
-            app:popExitAnim="@anim/exit_to_bottom"
-            app:popEnterAnim="@anim/fade_in" />
+            />
     </fragment>
 
     <fragment
@@ -114,5 +100,10 @@
         android:name="com.damhoe.gigclick.ui.track.EditTrackFragment"
         android:label="@string/title_edit_track"
         tools:layout="@layout/fragment_edit_track" />
+    <fragment
+        android:id="@+id/soundDialog"
+        android:name="com.damhoe.gigclick.ui.metronome.SoundDialog"
+        android:label="Sounds"
+        tools:layout="@layout/fragment_sound_dialog"/>
 
 </navigation>

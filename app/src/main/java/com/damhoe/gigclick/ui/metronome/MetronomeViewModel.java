@@ -1,20 +1,16 @@
 package com.damhoe.gigclick.ui.metronome;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.damhoe.gigclick.AudioPlayer;
 import com.damhoe.gigclick.Beat;
+import com.damhoe.gigclick.PracticeOptions;
 import com.damhoe.gigclick.Repository;
-import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.Track;
 
 import java.util.ArrayList;
-
-import javax.net.ssl.SSLSession;
 
 public class MetronomeViewModel extends ViewModel {
 
@@ -28,6 +24,10 @@ public class MetronomeViewModel extends ViewModel {
         return repository.getTempoLD();
     }
 
+    public Track getTrack() {
+        return repository.getTrackLD().getValue();
+    }
+
     @SuppressWarnings("ConstantConditions")
     public ArrayList<Beat> getBeats() {
         return repository.getTrackLD().getValue().getBeats();
@@ -35,6 +35,14 @@ public class MetronomeViewModel extends ViewModel {
 
     public LiveData<ArrayList<Beat>> getBeatLD() {
         return Transformations.map(repository.getTrackLD(), Track::getBeats);
+    }
+
+    public LiveData<Integer> getBPB_LD() {
+        return Transformations.map(repository.getTrackLD(), Track::getBPB);
+    }
+
+    public LiveData<PracticeOptions> getPOptionsLD() {
+        return Transformations.map(repository.getTrackLD(), Track::getpOptions);
     }
 
     public void setBPM(double bpm) {
@@ -49,12 +57,8 @@ public class MetronomeViewModel extends ViewModel {
         repository.setRunState(state);
     }
 
-    public void addBeat() {
-        repository.addBeat();
-    }
-
-    public void removeBeat() {
-        repository.removeBeat();
+    public void setBPB(int bpb) {
+        repository.setBPB(bpb);
     }
 
     public LiveData<Integer> getFlashLD() {
@@ -67,5 +71,16 @@ public class MetronomeViewModel extends ViewModel {
 
     public void nextAccent(int index) {
         repository.nextAccent(index);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void setPracticeOptions(boolean bs, boolean bm, int n, int su, int ds, int m, int nm) {
+        Track track = repository.getTrackLD().getValue();
+        PracticeOptions options = track.getpOptions();
+        options.update(n, su, ds, m, nm);
+        options.setMute(bm);
+        options.setSpeed(bs);
+        track.setpOptions(options);
+        repository.setTrack(track);
     }
 }

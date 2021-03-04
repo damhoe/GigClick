@@ -23,12 +23,6 @@
                     android:icon="@drawable/ic_stage_primary_24dp"
                     />
 
-                <item
-                    android:id="@+id/navigation_complex"
-                    android:title="@string/title_complex"
-                    android:icon="@drawable/ic_complex_primary_24dp"
-                    />
-
             </group>
 
         </menu>

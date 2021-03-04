@@ -37,6 +37,10 @@ public class MainViewModel extends ViewModel {
         return repository.getTrackLD().getValue().getBeats().get(index);
     }
 
+    public Track getTrack() {
+        return repository.getTrackLD().getValue();
+    }
+
     @SuppressWarnings("ConstantConditions")
     public ArrayList<Beat> getBeats() {
         return repository.getTrackLD().getValue().getBeats();
@@ -51,5 +55,11 @@ public class MainViewModel extends ViewModel {
 
     public void setFlashLD(int index) {
         repository.setFlashLD(index);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void speedUp(int deltaSpeed) {
+        double bpm = repository.getTempoLD().getValue().getBpm();
+        repository.setBPM(bpm + deltaSpeed);
     }
 }

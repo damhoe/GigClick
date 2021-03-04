@@ -1,12 +1,13 @@
 package com.damhoe.gigclick.ui.live;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -20,13 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 import com.damhoe.gigclick.INotifyItemClickListener;
 import com.damhoe.gigclick.MainActivity;
@@ -34,10 +32,11 @@ import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Track;
 import com.damhoe.gigclick.databinding.FragmentLiveBinding;
 import com.damhoe.gigclick.ui.TrackItemDivider;
+import com.damhoe.gigclick.ui.library.SetAdapter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
 import java.util.Locale;
-
-import kotlin.collections.AbstractIterator;
 
 public class LiveFragment extends Fragment {
 
@@ -71,6 +70,23 @@ public class LiveFragment extends Fragment {
             viewModel.setRunState(!isPlaying);
         });
 
+        binding.buttonSelectSet.setOnClickListener(v -> {
+
+            String[] setTitles = {"Set 1", "set 2", "set 3"};
+            int selected = 2;
+
+            new MaterialAlertDialogBuilder(getContext(), R.style.GigClickTheme_AlertDialog)
+                    .setTitle(getResources().getString(R.string.dialog_select_set_title))
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel())
+                    .setPositiveButton("Apply", ((dialogInterface, i) -> {
+                        dialogInterface.cancel();
+                    }))
+                    .setSingleChoiceItems(setTitles, selected, (dialogInterface, i) -> {
+                        // ignore.
+                    })
+                    .show();
+        });
+
         viewModel.getRunStateLD().observe(getViewLifecycleOwner(), isPlaying -> {
             Drawable drawable;
             if (isPlaying) {
@@ -83,6 +99,9 @@ public class LiveFragment extends Fragment {
         });
 
         viewModel.getSelectedLD().observe(getViewLifecycleOwner(), this::updateUI);
+        viewModel.getxLD().observe(getViewLifecycleOwner(), x -> {
+            binding.pendulumForeground.setPositionX(x);
+        });
 
         return binding.getRoot();
     }
@@ -96,18 +115,21 @@ public class LiveFragment extends Fragment {
 
     @SuppressWarnings("ConstantConditions")
     private void updateUI(int selected) {
-        Track track = viewModel.getCurrentTracksLD().getValue().get(selected);
+
+        // show current playing Track in preview
+        Track track = viewModel.getTrackLD().getValue();
+
         binding.textBpm.setText(String.format(Locale.GERMANY, "%3.0f", track.getTempo().getBpm()));
-        binding.textTempo.setText(track.getTempo().getLabel());
+        //binding.textTempo.setText(track.getTempo().getLabel());
         binding.textTitle.setText(track.getTitle());
-        binding.textComment.setText(track.getComment());
-        binding.textArtist.setText(track.getArtist());
+        //binding.textComment.setText(track.getComment());
+        //binding.textArtist.setText(track.getArtist());
         binding.textTrackNumber.setText(String.format(Locale.GERMANY, "%d", selected + 1));
         adapter.notifyDataSetChanged();
     }
 
     private void setUpTrackRecyclerView() {
-        adapter = new TrackAdapter(viewModel, viewModel.getBibLD().getValue(),
+        adapter = new TrackAdapter(viewModel, viewModel.getSetLD().getValue().getTracks(),
                 new INotifyItemClickListener() {
                     @SuppressWarnings("ConstantConditions")
                     @Override
@@ -134,7 +156,7 @@ public class LiveFragment extends Fragment {
 
         new Thread(new Runnable() {
 
-            final int REFRESH_RATE = 500; // per second
+            final int REFRESH_RATE = 700; // per second
             final int DELAY = 1000 / REFRESH_RATE;
 
             long t;
@@ -154,7 +176,8 @@ public class LiveFragment extends Fragment {
                     ex.printStackTrace();
                 } finally {
                     // reset UI elements
-                    binding.pendulumForeground.setPositionX(0.);
+                    //binding.pendulumForeground.setPositionX(0.);
+                    viewModel.setxLD(0.);
                 }
             }
 
@@ -163,8 +186,8 @@ public class LiveFragment extends Fragment {
                 f = viewModel.getTempoLD().getValue().getBpm() / 60000.; // beats per ms
                 t = System.currentTimeMillis();
                 x = Math.sin(Math.PI * f * (t - t0) + phi0);
-                dx = Math.cos(Math.PI * f * (t - t0) + phi0);
-                binding.pendulumForeground.setPositionX(x);
+                //dx = Math.cos(Math.PI * f * (t - t0) + phi0);
+                viewModel.setxLD(x);
                 Thread.sleep(DELAY);
             }
         }).start();

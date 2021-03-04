@@ -7,8 +7,8 @@ import java.util.Locale;
 public class Tempo {
 
     public final static double DEFAULT_BPM = 120.; // max > default > min
-    private static final double MAX_BPM = 280.;
-    private static final double MIN_BPM = 40.;
+    public static final double MAX_BPM = 280.999;
+    public static final double MIN_BPM = 40.;
 
     double bpm;
     String label;

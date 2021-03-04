@@ -110,6 +110,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_navigation_metronome_to_soundDialog">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -144,6 +149,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="soundDialog">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="530" />
+                            <option name="y" value="5" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

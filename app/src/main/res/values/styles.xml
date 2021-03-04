@@ -1,26 +1,75 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="GigClickTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="GigClickTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorAccent</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryDark</item>
+
+        <item name="colorOnPrimary">@color/colorTextPrimary</item>
+        <item name="colorOnSecondary">@color/colorTextSecondary</item>
+        <item name="colorOnSurface">@color/colorText</item>
 
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="fontFamily">@font/domine</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="fontFamily">@font/overlock</item>
         <item name="android:textColor">@color/text_color_state</item>
         <item name="windowActionBar">false</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
-        <item name="buttonStyle">@style/AppThemeDark.Button</item>
+
+        <item name="alertDialogStyle">@style/GigClickTheme.AlertDialog</item>
 
         <item name="colorNavigationItem">@color/menu_item_color_state</item>
         <item name="colorNavigationItemSelected">@color/colorTextSecondary</item>
         <item name="drawableNavigationItemBackground">@drawable/menu_background_color_state</item>
 
     </style>
-    
-    <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+
+    <style name="GigClickTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="android:background">@color/colorBackground</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/GigClickTheme.AlertDialog.Title</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:checkedTextViewStyle">@style/GigClickTheme.CheckedTextView</item>
+        <item name="buttonBarPositiveButtonStyle">@style/GigClickTheme.PositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/GigClickTheme.NegativeButton</item>
+        <item name="shapeAppearanceOverlay">@style/RoundShapeAppearance</item>
+    </style>
+
+    <style name="GigClickTheme.AlertDialog.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="RoundShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="GigClickTheme.CheckedTextView" parent="@style/Widget.MaterialComponents.CheckedTextView">
+        <item name="android:textColor">@color/colorTextWeak</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="GigClickTheme.PositiveButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="rippleColor">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="GigClickTheme.NegativeButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="rippleColor">@color/colorBackgroundLight</item>
+    </style>
+
+    <style name="GigClickTheme.ButtonShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="background">@color/colorBackgroundLight</item>
         <item name="itemTextAppearanceActive">@style/ActiveText</item>
         <item name="itemTextAppearanceInactive">@style/InactiveText</item>
@@ -36,53 +85,66 @@
         <item name="android:textColor">@color/colorTextWeak</item>
     </style>
 
-    <style name="OverflowTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="OverflowTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
         <item name="background">@drawable/menu_background_color_state</item>
         <item name="android:textColorPrimary">@color/colorText</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorText</item>
     </style>
 
-    <style name="ToolbarThemeLight" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="ToolbarThemeLight" parent="ThemeOverlay.MaterialComponents.ActionBar">
         <item name="android:textColor">@color/colorText</item>
     </style>
 
-    <style name="FABDark" parent="Widget.Design.FloatingActionButton">
+    <style name="FABDark" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="FABInvisible" parent="Widget.Design.FloatingActionButton">
+    <style name="FABInvisible" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="colorAccent">@android:color/transparent</item>
         <item name="background">?selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="ImageButtonInvisible" parent="Widget.AppCompat.ImageButton">
-        <item name="android:background">@drawable/invisible_button_background   </item>
+    <style name="ImageButtonInvisible" parent="Widget.MaterialComponents.Button">
+        <item name="background">@drawable/invisible_button_background</item>
+        <item name="backgroundTint">@android:color/transparent</item>
         <item name="colorControlHighlight">@color/colorHighlight</item>
         <item name="tint">@color/colorPrimaryLight</item>
     </style>
 
-    <style name="AppThemeDark.Button" parent="Widget.AppCompat.Button">
-        <item name="colorButtonNormal">@color/colorBackgroundLightOverlay</item>
-        <item name="android:textColor">@color/colorText</item>
+    <style name="ImageButtonInvisibleDeactivated" parent="Widget.MaterialComponents.Button">
+        <item name="android:background">@drawable/invisible_button_background   </item>
+        <item name="colorControlHighlight">@color/colorHighlight</item>
+        <item name="tint">@color/colorTextDisabled</item>
     </style>
 
-    <style name="AppThemeDark.TextButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:textColor">@color/colorAccent</item>
+    <style name="GigClickTheme.IconButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+        <item name="rippleColor">@color/colorBackgroundDark</item>
+        <item name="cornerSize">10dp</item>
+        <item name="shapeAppearanceOverlay">@style/GigClickTheme.IconButtonShapeAppearance</item>
     </style>
 
-    <style name="AppThemeDark.CompoundButton" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:background">@drawable/compound_button_background</item>
-        <item name="android:textColor">@color/colorTextPrimary</item>
+    <!-- Button size is 56dp -->
+    <style name="GigClickTheme.IconButtonShapeAppearance" parent="">
+        <item name="cornerSize">28dp</item>
+        <item name="cornerFamily">rounded</item>
     </style>
 
 
-    <style name="NavigationDrawerStyle" parent="Widget.Design.NavigationView">
+
+    <style name="NavigationDrawerStyle" parent="Widget.MaterialComponents.NavigationView">
 
         <item name="android:textSize">16sp</item><!-- text size in menu-->
         <item name="android:fontFamily">@font/lato</item>
@@ -105,5 +167,14 @@
         <item name="itemTextColor">?attr/colorNavigationItem</item>
         <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
     </style>
+
+    <style name="GigClickTheme.Picker" parent="Theme.MaterialComponents.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    d
 
 </resources>

@@ -66,7 +66,8 @@ public class RotaryView extends FrameLayout {
 
         knob.setAngle(angle);
         knob.invalidate();
-        ring.setAngle(angleRing);
+        ring.setRotation(angleRing);
+        //ring.setAngle(angleRing);
         ring.invalidate();
     }
 

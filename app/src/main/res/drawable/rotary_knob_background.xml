@@ -5,11 +5,11 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="-90"
-                android:startColor="#3000"
+                android:startColor="#20121212"
                 android:endColor="#1888"/>
             <size
-                android:width="150dp"
-                android:height="150dp"/>
+                android:width="154dp"
+                android:height="154dp"/>
         </shape>
     </item>
 
@@ -17,11 +17,11 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="-90"
-                android:startColor="#9fff"
+                android:startColor="#5fff"
                 android:endColor="#2222"/>
             <stroke
                 android:color="@android:color/transparent"
-                android:width="8dp"/>
+                android:width="12dp"/>
             <size
                 android:width="150dp"
                 android:height="150dp"/>

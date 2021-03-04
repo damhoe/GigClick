@@ -29,11 +29,8 @@ public class Beat {
             case ACCENT_MEDIUM:
                 accent = ACCENT_HIGH;
                 break;
-            case ACCENT_LOW:
-                accent = ACCENT_MEDIUM;
-                break;
             case ACCENT_OFF:
-                accent = ACCENT_LOW;
+                accent = ACCENT_MEDIUM;
                 break;
         }
     }
@@ -41,13 +38,13 @@ public class Beat {
     public int getDrawableID() {
         switch (accent) {
             case ACCENT_HIGH:
-                return R.drawable.beat_accent_high;
+                return R.drawable.beat_accent_view;
             case ACCENT_MEDIUM:
-                return R.drawable.beat_accent_medium;
+                return R.drawable.beat_view;
             case ACCENT_LOW:
                 return R.drawable.beat_accent_low;
             case ACCENT_OFF:
-                return R.drawable.beat_accent_off;
+                return R.drawable.beat_off_view;
             default:
                 return -1;
         }

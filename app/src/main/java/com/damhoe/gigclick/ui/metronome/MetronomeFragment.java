@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,6 +27,7 @@ import androidx.navigation.Navigation;
 import com.damhoe.gigclick.Beat;
 import com.damhoe.gigclick.INotifyListener;
 import com.damhoe.gigclick.R;
+import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.databinding.FragmentMetronomeBinding;
 
 import java.util.ArrayList;
@@ -90,21 +93,43 @@ public class MetronomeFragment extends Fragment {
             viewModel.setRunState(!isPlaying);
         });
 
-        binding.buttonAddBeat.setOnClickListener(v -> viewModel.addBeat());
-        binding.buttonDeleteBeat.setOnClickListener(v -> viewModel.removeBeat());
+        //binding.buttonAddBeat.setOnClickListener(v -> viewModel.addBeat());
+        //binding.buttonDeleteBeat.setOnClickListener(v -> viewModel.removeBeat());
 
-        binding.buttonDivision.setOnClickListener(view -> {
-            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToDivisionDialog());
+        binding.buttonSounds.setOnClickListener(view -> {
+            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToSoundDialog());
         });
 
-        binding.buttonMode.setOnClickListener(view -> {
+        binding.buttonPractice.setOnClickListener(view -> {
             findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToPracticeDialog());
+        });
+
+        binding.buttonEditBeats.setOnClickListener(view -> {
+            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToDivisionDialog());
         });
 
         viewModel.getTempoLD().observe(getViewLifecycleOwner(), tempo -> {
             binding.textBpm.setText(String.format(Locale.GERMANY, "%3.0f", tempo.getBpm()));
             binding.textTempo.setText(tempo.getLabel());
+
+            if (tempo.getBpm() >= (int) Tempo.MAX_BPM) {
+                binding.buttonIncrease.setVisibility(View.GONE);
+                binding.buttonIncreaseDeactivated.setVisibility(View.VISIBLE);
+            } else {
+                binding.buttonIncrease.setVisibility(View.VISIBLE);
+                binding.buttonIncreaseDeactivated.setVisibility(View.GONE);
+            }
+
+            if ((int) tempo.getBpm() <= Tempo.MIN_BPM) {
+                binding.buttonDecrease.setVisibility(View.GONE);
+                binding.buttonDecreaseDeactivated.setVisibility(View.VISIBLE);
+            } else {
+                binding.buttonDecrease.setVisibility(View.VISIBLE);
+                binding.buttonDecreaseDeactivated.setVisibility(View.GONE);
+            }
         });
+
+        viewModel.getBeatLD().observe(getViewLifecycleOwner(), this::updateUI);
 
         viewModel.getRunStateLD().observe(getViewLifecycleOwner(), isPlaying -> {
             Drawable drawable;
@@ -113,22 +138,54 @@ public class MetronomeFragment extends Fragment {
                 drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_stop_black_24dp);
             } else {
                 drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_play_black_24dp);
+                resetBeats();
             }
             binding.buttonPlay.setImageDrawable(drawable);
         });
 
-        viewModel.getBeatLD().observe(getViewLifecycleOwner(), this::updateUI);
         viewModel.getFlashLD().observe(getViewLifecycleOwner(), i -> {
             if (i != -1) { // not equals no flash
                 flash(i);
             }
         });
 
+        viewModel.getBPB_LD().observe(getViewLifecycleOwner(), i -> {
+            binding.timeSignatureView.setText(getString(R.string.time_signature, i,
+                    Integer.parseInt(getString(R.string.default_metric))));
+        });
+
+        viewModel.getPOptionsLD().observe(getViewLifecycleOwner(), options -> {
+
+            if (options.isMuted()) {
+                binding.icMute.setVisibility(View.VISIBLE);
+            } else {
+                binding.icMute.setVisibility(View.GONE);
+            }
+
+            if (options.isSpeed()) {
+                binding.icSpeed.setVisibility(View.VISIBLE);
+            } else {
+                binding.icSpeed.setVisibility(View.GONE);
+            }
+        });
+
         return binding.getRoot();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private NavController findNavController() {
         return Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private void resetBeats() {
+        if (viewModel.getTrack() != null) {
+            for (int i=0; i<viewModel.getBeats().size(); i++) {
+                binding.beatPlaceholder.getChildAt(i).setBackground(
+                        ContextCompat.getDrawable(getContext(), viewModel.getBeats().get(i).getDrawableID())
+                );
+            }
+        }
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -145,44 +202,50 @@ public class MetronomeFragment extends Fragment {
             int drawableId;
             switch (viewModel.getBeats().get(i).getAccent()) {
                 case Beat.ACCENT_HIGH:
-                    drawableId = R.drawable.beat_accent_high_flash;
+                    drawableId = R.drawable.beat_accent_flash_view;
                     break;
                 case Beat.ACCENT_MEDIUM:
-                    drawableId = R.drawable.beat_accent_medium_flash;
+                    drawableId = R.drawable.beat_flash_view;
                     break;
                 case Beat.ACCENT_LOW:
                     drawableId = R.drawable.beat_accent_low_flash;
                     break;
                 default:
-                    drawableId = R.drawable.beat_accent_off_flash;
+                    drawableId = R.drawable.beat_off_flash_view;
             }
+
+            int old = (i + viewModel.getBeats().size() - 1) % viewModel.getBeats().size();
+            binding.beatPlaceholder.getChildAt(old).setBackground(
+                    ContextCompat.getDrawable(getContext(), viewModel.getBeats().get(old).getDrawableID())
+            );
+
             binding.beatPlaceholder.getChildAt(i).setBackground(
                     ContextCompat.getDrawable(getContext(), drawableId)
             );
 
-            handler.postDelayed(new Runnable() {
-                @SuppressWarnings("ConstantConditions")
-                @Override
-                public void run() {
-                    int drawableId;
-                    switch (viewModel.getBeats().get(i).getAccent()) {
-                        case Beat.ACCENT_HIGH:
-                            drawableId = R.drawable.beat_accent_high;
-                            break;
-                        case Beat.ACCENT_MEDIUM:
-                            drawableId = R.drawable.beat_accent_medium;
-                            break;
-                        case Beat.ACCENT_LOW:
-                            drawableId = R.drawable.beat_accent_low;
-                            break;
-                        default:
-                            drawableId = R.drawable.beat_accent_off;
-                    }
-                    binding.beatPlaceholder.getChildAt(i).setBackground(
-                            ContextCompat.getDrawable(getContext(), drawableId)
-                    );
-                }
-            }, 100);
+//            handler.postDelayed(new Runnable() {
+//                @SuppressWarnings("ConstantConditions")
+//                @Override
+//                public void run() {
+//                    int drawableId;
+//                    switch (viewModel.getBeats().get(i).getAccent()) {
+//                        case Beat.ACCENT_HIGH:
+//                            drawableId = R.drawable.beat_accent_view;
+//                            break;
+//                        case Beat.ACCENT_MEDIUM:
+//                            drawableId = R.drawable.beat_view;
+//                            break;
+//                        case Beat.ACCENT_LOW:
+//                            drawableId = R.drawable.beat_accent_low;
+//                            break;
+//                        default:
+//                            drawableId = R.drawable.beat_off_view;
+//                    }
+//                    binding.beatPlaceholder.getChildAt(i).setBackground(
+//                            ContextCompat.getDrawable(getContext(), drawableId)
+//                    );
+//                }
+//            }, 100);
         } catch (Exception e) {
             viewModel.setFlashLD(-1);
         }
@@ -196,12 +259,18 @@ public class MetronomeFragment extends Fragment {
         return (int) (MIN_WIDTH + (MAX_WIDTH - MIN_WIDTH) * (double) (MAX_BEATS - n) / (MAX_BEATS - 1));
     }
 
+    public int dpToPx(int dp) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     private View createBeatView(Beat beat, int nBeats, final int idx) {
         View view = new View(getContext());
         view.setBackground(getResources().getDrawable(beat.getDrawableID(), null));
-        int width = getBeatWidth(nBeats);
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        int width = dpToPx(22);//getBeatWidth(nBeats);
+        int height = dpToPx(22); //ViewGroup.LayoutParams.MATCH_PARENT;
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(width, height);
         view.setLayoutParams(params);
         view.setOnClickListener(new View.OnClickListener() {
@@ -278,7 +347,7 @@ public class MetronomeFragment extends Fragment {
                     ex.printStackTrace();
                 } finally {
                     // reset UI elements
-                    binding.pendulumForeground.setPositionX(0.);
+                    //binding.pendulumForeground.setPositionX(0.);
                 }
             }
 
@@ -288,7 +357,7 @@ public class MetronomeFragment extends Fragment {
                 t = System.currentTimeMillis();
                 x = Math.sin(Math.PI * f * (t - t0) + phi0);
                 dx = Math.cos(Math.PI * f * (t - t0) + phi0);
-                binding.pendulumForeground.setPositionX(x);
+                // binding.pendulumForeground.setPositionX(x);
                 Thread.sleep(DELAY);
             }
         }).start();

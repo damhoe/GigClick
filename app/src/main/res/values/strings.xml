@@ -74,4 +74,21 @@
     <string name="set_details">Set Details</string>
     <string name="track_details">Track Details</string>
     <string name="title_edit_track">Edit</string>
+    <string name="example_bar">4 / 8</string>
+    <string name="time_signature">%d / %d</string>
+    <string name="example_subdivision">8-16-16</string>
+    <string name="title_cancel">cancel</string>
+    <string name="slash">/</string>
+    <string name="label_time_signature">Time Signature</string>
+    <string name="default_metric">4</string>
+    <string name="label_speed_up">Speed up</string>
+    <string name="every">Every</string>
+    <string name="bar">bar</string>
+    <string name="by">by</string>
+    <string name="label_mute">Mute</string>
+    <string name="bars">bars.</string>
+    <string name="mute">Mute</string>
+    <string name="play">Play</string>
+    <string name="dialog_select_set_msg">Select a Set!</string>
+    <string name="dialog_select_set_title">Load new Set</string>
 </resources>

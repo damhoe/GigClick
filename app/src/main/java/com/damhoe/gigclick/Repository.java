@@ -118,6 +118,13 @@ public class Repository {
         trackLD.postValue(track);
     }
 
+    @SuppressWarnings("ConstantConditions")
+    public void setBPB(int bpb) {
+        Track track = getTrackLD().getValue();
+        track.setBPB(bpb);
+        trackLD.postValue(track);
+    }
+
     public void setFlashLD(int index) {
         flashLD.postValue(index);
     }

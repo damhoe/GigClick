@@ -15,16 +15,19 @@ public class Track {
     private String title;
     private String comment;
     private String artist;
+    private int bpb; // beats per bar
+    private PracticeOptions pOptions;
 
     // default constructor
     public Track() {
         this.id = System.currentTimeMillis();
         this.tempo = new Tempo();
-        int n = 4; // add 4 beats
+        this.bpb = 4; // add 4 beats
         beats = new ArrayList<>();
-        for (int i=0; i<n; i++) {
+        for (int i=0; i<bpb; i++) {
             this.beats.add(new Beat());
         }
+        pOptions = new PracticeOptions();
     }
 
     public ArrayList<Beat> getBeats() {
@@ -111,4 +114,34 @@ public class Track {
     public long getId() {
         return id;
     }
+
+    public void setBPB(int bpb) {
+        this.bpb = bpb;
+
+        // changing the time signature should adjust the beats
+        int delta = getBeats().size() - bpb;
+
+        while (delta > 0) {
+            removeBeat();
+            delta -= 1;
+        }
+
+        while (delta < 0) {
+            addBeat();
+            delta += 1;
+        }
+    }
+
+    public int getBPB() {
+        return bpb;
+    }
+
+    public PracticeOptions getpOptions() {
+        return pOptions;
+    }
+
+    public void setpOptions(PracticeOptions pOptions) {
+        this.pOptions = pOptions;
+    }
 }
+

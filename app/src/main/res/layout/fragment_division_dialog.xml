@@ -11,39 +11,76 @@
         tools:context=".ui.metronome.DivisionDialog">
 
         <TextView
-            android:id="@+id/text_bpm"
+            android:id="@+id/label_time_signature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:textAlignment="center"
-            android:textSize="36sp"
-            android:ems="3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/label_bpm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_bpm"
+            android:layout_marginStart="24dp"
+            android:text="@string/label_time_signature"
+            android:textAllCaps="true"
             android:textColor="@color/colorTextDisabled"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/text_bpm"
-            app:layout_constraintEnd_toEndOf="@+id/text_bpm"
-            app:layout_constraintStart_toStartOf="@+id/text_bpm"
-            android:layout_marginBottom="4dp"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <NumberPicker
+            android:id="@+id/np_beats_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/GigClickTheme.Picker"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/slash"
+            app:layout_constraintTop_toBottomOf="@id/label_time_signature" />
+
+        <TextView
+            android:id="@+id/bpb_div"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/default_metric"
+            android:textColor="@color/colorTextDisabled"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/np_beats_bar"
+            app:layout_constraintStart_toEndOf="@id/slash"
+            app:layout_constraintTop_toTopOf="@id/np_beats_bar" />
+
+        <TextView
+            android:id="@+id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/slash"
+            android:textColor="@color/colorTextDisabled"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/np_beats_bar"
+            app:layout_constraintBottom_toBottomOf="@id/np_beats_bar"
             />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Here you should handle subdivisions."
-            android:textStyle="italic"
+            android:id="@+id/label_subdivisions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_subdivisions"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextDisabled"
+            android:textAllCaps="true"
+            app:layout_constraintTop_toBottomOf="@id/np_beats_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not yet implemented."
+            app:layout_constraintTop_toBottomOf="@id/label_subdivisions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,16 +89,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="24dp"
             android:layout_marginEnd="16dp"
-            style="@style/AppThemeDark.CompoundButton"
+            style="@style/GigClickTheme.PositiveButton"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             app:cornerRadius="4dp"
-            android:id="@+id/button_remove"
+            android:id="@+id/button_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/AppThemeDark.TextButton"
-            android:text="@string/title_remove"
+            style="@style/GigClickTheme.NegativeButton"
+            android:text="@string/title_cancel"
             app:layout_constraintEnd_toStartOf="@id/button_apply"
             app:layout_constraintTop_toTopOf="@id/button_apply"
             app:layout_constraintBottom_toBottomOf="@id/button_apply"

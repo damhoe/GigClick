@@ -11,8 +11,6 @@ import android.view.MenuItem;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
@@ -21,7 +19,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -154,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new Thread(new Runnable() {
 
             private int position = 0;
+            private int bar = 0;
 
             @SuppressWarnings("ConstantConditions")
             public void run() {
@@ -179,14 +177,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
               Therefore we can write continously here in that background thread.
               */
             private void beat() throws IOException, FormatException {
+                final Track track = viewModel.getTrack();
+                PracticeOptions pOptions = track.getpOptions();
+
                 final ArrayList<Beat> beats = viewModel.getBeats();
                 int samples = viewModel.getNumberSamplesPerSplittedBeat();
+
                 int key = beats.get(position).getAccent();
+
+                if (pOptions.isMuted() && pOptions.isIdxMuted(bar)) {
+                    key = Beat.ACCENT_OFF;
+                }
+
                 viewModel.setFlashLD(position);
                 player.play(key, samples);
                 position++;
-                if (position >= viewModel.getBeats().size())
+                if (position >= viewModel.getBeats().size()) {
                     position = 0;
+                    bar++;
+                    if (bar > pOptions.getnBars()) {
+                        viewModel.setRunningState(false);
+                    }
+
+                    if (pOptions.isSpeed() && pOptions.isSpeedUp(bar)) {
+                        viewModel.speedUp(pOptions.getDeltaSpeed());
+                    }
+                }
+
+
             }
 
             /*
