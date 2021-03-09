@@ -20,7 +20,7 @@ public class Track {
 
     // default constructor
     public Track() {
-        this.id = System.currentTimeMillis();
+        this.id = System.nanoTime();
         this.tempo = new Tempo();
         this.bpb = 4; // add 4 beats
         beats = new ArrayList<>();
@@ -142,6 +142,15 @@ public class Track {
 
     public void setpOptions(PracticeOptions pOptions) {
         this.pOptions = pOptions;
+    }
+
+    public void update(Track track) {
+        setTitle(track.getTitle());
+        setComment(track.getComment());
+        setTempo(track.getTempo());
+        setBPB(track.getBPB());
+        setpOptions(track.getpOptions());
+        setArtist(track.getArtist());
     }
 }
 

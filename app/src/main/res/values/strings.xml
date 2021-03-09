@@ -57,15 +57,15 @@
     <string name="title_by_popularity">Popularity</string>
     <string name="title_search">search</string>
     <string name="label_number_of_tracks">Tracks</string>
-    <string name="dot">\ •\ </string>
+    <string name="dot">\ \ \ •</string>
     <string name="label_n_tracks">\ Tracks</string>
     <string name="example_date">May, 23  \'2020\ \ •</string>
     <string name="name_set_transition">set_transition</string>
     <string name="title_your_sets">Your Sets</string>
     <string name="example_n_tracks">•\ \ 6 Tracks</string>
-    <string name="n_tracks">•\ \ %1$d Tracks</string>
+    <string name="n_tracks">•\ \ \ %1$d Tracks</string>
     <string name="example_n_sets">•\ \ 6 Sets</string>
-    <string name="n_sets">•\ \ %1$d Sets</string>
+    <string name="n_sets">•\ \ \ %1$d Sets</string>
     <string name="label_title">Title</string>
     <string name="label_tempo">Tempo</string>
     <string name="label_beats">Beats</string>
@@ -73,7 +73,7 @@
     <string name="label_subdivisions">Subdivisions</string>
     <string name="set_details">Set Details</string>
     <string name="track_details">Track Details</string>
-    <string name="title_edit_track">Edit</string>
+    <string name="title_edit_track">Edit Track</string>
     <string name="example_bar">4 / 8</string>
     <string name="time_signature">%d / %d</string>
     <string name="example_subdivision">8-16-16</string>
@@ -91,4 +91,12 @@
     <string name="play">Play</string>
     <string name="dialog_select_set_msg">Select a Set!</string>
     <string name="dialog_select_set_title">Load new Set</string>
+    <string name="title">Title</string>
+    <string name="helper_comment">Optional</string>
+    <string name="required">Required</string>
+    <string name="title_track_details">Track Details</string>
+    <string name="error_beats">This feature has been left for future updates. For now it is considered sufficient to not use modified rhythms in the live mode.</string>
+    <string name="label_tempo_text">Tempo Text</string>
+    <string name="title_set">Set Details</string>
+    <string name="set_date_format">MMM, d \'\'yy</string>
 </resources>

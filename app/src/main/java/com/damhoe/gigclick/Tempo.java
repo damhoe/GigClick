@@ -57,4 +57,10 @@ public class Tempo {
         else if (bpm >= 168 && bpm < 200) label = "Presto";
         else if (bpm >= 200 && bpm <= MAX_BPM) label = "Prestissimo";
     }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.GERMANY,"%3.0f", bpm);
+    }
+
 }

@@ -2,8 +2,10 @@ package com.damhoe.gigclick.ui.live;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.damhoe.gigclick.Library;
 import com.damhoe.gigclick.Repository;
 import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.Tempo;
@@ -26,9 +28,10 @@ public class LiveViewModel extends ViewModel {
         // set Set LiveData
         setLD = new MutableLiveData<>();
         // TODO: load default set by set ID -> requires database
-        long id = repository.getSetsLD().getValue().get(0).getId();
-        Set set = repository.getSetById(id);
-        setLD.setValue(set);
+        //long id = repository.getLibraryLD().getValue().getSets().get(0).getId();
+        Library lib = repository.getLibraryLD().getValue();
+        //Set set = repository.getSetById(id);
+        setLD.setValue(lib.getSets().get(0));
 
         // set playing Track LiveData
         // default with first Track in the current set
@@ -79,5 +82,15 @@ public class LiveViewModel extends ViewModel {
 
     public void setxLD(double x) {
         xLD.postValue(x);
+    }
+
+    public int getTrackNumber(long id) {
+        ArrayList<Track> tracks = getSetLD().getValue().getTracks();
+        for (int i=0; i<tracks.size(); i++) {
+            if (tracks.get(i).getId() == id) {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 }

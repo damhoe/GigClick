@@ -1,115 +1,93 @@
 package com.damhoe.gigclick.ui.track;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.damhoe.gigclick.Beat;
+import com.damhoe.gigclick.INotifyListener;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Track;
 import com.damhoe.gigclick.databinding.FragmentEditTrackBinding;
+import com.damhoe.gigclick.ui.metronome.RotaryView;
+import com.damhoe.gigclick.ui.track.EditTrackViewModel;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-import static com.damhoe.gigclick.ui.metronome.MetronomeFragment.getBeatWidth;
+import static com.damhoe.gigclick.ui.metronome.MetronomeFragment.FACTOR_ANGLE_TO_BEATS;
 
 
 public class EditTrackFragment extends Fragment {
 
     private FragmentEditTrackBinding binding;
-    private TrackViewModel viewModel;
+    private EditTrackViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(TrackViewModel.class);
+
+        viewModel = EditTrackVMFactory.createEditTrackVM(getActivity().getApplication(),
+                this, getArguments());
     }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_track, container, false);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        viewModel.getTrackLD().observe(getViewLifecycleOwner(), this::updateUI);
+        ((RotaryView) binding.rotaryForeground).setNotifyListener(new INotifyListener() {
+            @Override
+            public void onNotifyAngle(double angle) {
+                double bpm = viewModel.getTempoLD().getValue().getBpm();
+                bpm +=  angle * FACTOR_ANGLE_TO_BEATS;
+                viewModel.setBPM(bpm);
+            }
+
+            @Override
+            public void onNotifyMillis(long millis) {
+                double bpm = 60000. / millis;
+                viewModel.setBPM(bpm);
+            }
+        });
+
+        binding.buttonIncrease.setOnClickListener(v -> {
+            double bpm = viewModel.getTempoLD().getValue().getBpm();
+            bpm +=  1;
+            viewModel.setBPM(bpm);
+        });
+
+        binding.buttonDecrease.setOnClickListener(v -> {
+            double bpm = viewModel.getTempoLD().getValue().getBpm();
+            bpm -= 1;
+            viewModel.setBPM(bpm);
+        });
+
+        binding.buttonCancel.setOnClickListener(view -> {
+            findNavController().navigateUp();
+        });
+
+        binding.buttonApply.setOnClickListener(view -> {
+            viewModel.saveTrack();
+            findNavController().navigateUp();
+        });
+
+        viewModel.getTitleLD().observe(getViewLifecycleOwner(), s -> {
+            binding.buttonApply.setEnabled(viewModel.isValidTitle(s));
+        });
 
         return binding.getRoot();
     }
 
-    private void updateUI(Track track) {
-        binding.editTitle.setText(track.getTitle());
-        binding.editComment.setText(track.getComment());
-        binding.textBpm.setText(track.getTempo().getBpmText());
-        binding.textTempo.setText(track.getTempo().getLabel());
-
-        updateBeats(track.getBeats());
-        // TODO update subdivisions
-    }
-
-    private void updateBeats(ArrayList<Beat> beats) {
-
-        int size = beats.size();
-        if (size < 1) return;
-
-        ConstraintLayout parent = binding.beatPlaceholder;
-        parent.removeAllViews();
-
-        int[] children = new int[size];
-
-        for (Beat b: beats) {
-
-            final int idx = beats.indexOf(b);
-            View v = createBeatView(b, size, idx);
-            v.setId(View.generateViewId());
-            children[idx] = v.getId();
-            parent.addView(v);
-        }
-
-        // set constraints to the views
-        ConstraintSet set = new ConstraintSet();
-        set.clone(parent);
-        set.connect(children[0], ConstraintSet.LEFT, parent.getId(), ConstraintSet.LEFT);
-
-        for (int j=1; j<size; j++) {
-            set.connect(children[j-1], ConstraintSet.RIGHT, children[j], ConstraintSet.LEFT);
-        }
-        set.connect(children[size-1], ConstraintSet.RIGHT, parent.getId(), ConstraintSet.RIGHT);
-
-        // with two or more elements create a chain
-        if (size >= 2) {
-            set.createHorizontalChain(
-                    ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
-                    ConstraintSet.PARENT_ID, ConstraintSet.RIGHT,
-                    children, null, ConstraintSet.CHAIN_SPREAD
-            );
-        }
-        set.applyTo(parent);
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private View createBeatView(Beat beat, int nBeats, final int idx) {
-        View view = new View(getContext());
-        view.setBackground(getResources().getDrawable(beat.getDrawableID(), null));
-        int width = getBeatWidth(nBeats);
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(width, height);
-        view.setLayoutParams(params);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.nextAccent(idx);
-            }
-        });
-        return view;
+    private NavController findNavController() {
+        return Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
     }
 }

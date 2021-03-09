@@ -10,6 +10,7 @@
         <item name="colorOnPrimary">@color/colorTextPrimary</item>
         <item name="colorOnSecondary">@color/colorTextSecondary</item>
         <item name="colorOnSurface">@color/colorText</item>
+        <item name="colorSurface">@color/colorBackground</item>
 
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:colorBackground">@color/colorBackground</item>
@@ -25,6 +26,7 @@
         <item name="colorNavigationItemSelected">@color/colorTextSecondary</item>
         <item name="drawableNavigationItemBackground">@drawable/menu_background_color_state</item>
 
+        <item name="textInputStyle">@style/GigClickTheme.TextInputLayout</item>
     </style>
 
     <style name="GigClickTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -54,10 +56,11 @@
     </style>
 
     <style name="GigClickTheme.PositiveButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="backgroundTint">@color/positive_button_state</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="rippleColor">@color/colorPrimaryLight</item>
     </style>
+
 
     <style name="GigClickTheme.NegativeButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/colorAccent</item>
@@ -175,6 +178,15 @@
         <item name="android:padding">8dp</item>
     </style>
 
-    d
+    <style name="GigClickTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+    </style>
 
+    <style name="ThemeOverlay.App.TextInputLayout" parent="">
+        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
+    </style>
+
+
+    <color name="colorError">@android:color/holo_red_dark</color>
 </resources>

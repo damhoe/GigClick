@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.damhoe.gigclick.Library;
 import com.damhoe.gigclick.Repository;
 import com.damhoe.gigclick.Set;
+import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.Track;
 
 import java.util.ArrayList;
@@ -14,9 +16,16 @@ import java.util.ArrayList;
 public class LibraryViewModel extends ViewModel {
 
     private final Repository repository = Repository.getInstance();
+    private final MutableLiveData<Set> setLD = new MutableLiveData<>(); // set which can be viewed with details and edited
+    private final MutableLiveData<Track> trackLD = new MutableLiveData<>();  // track which can be viewed with details and edited
+
+    public LiveData<ArrayList<Set>> setsLD;
+
+    private int idxTrack = 0;
 
     public LibraryViewModel() {
-        // empty.
+        setLD.setValue(new Set(""));
+        trackLD.setValue(new Track());
     }
 
     public void sortSets(int key) {
@@ -25,34 +34,50 @@ public class LibraryViewModel extends ViewModel {
         repository.setSetsLD(sets);
     }
 
-    public LiveData<Track> getCurrentTrackLD() {
-        return repository.getTrackLD();
+    public LiveData<Library> getLibraryLD() {
+        return repository.getLibraryLD();
+    }
+
+    public LiveData<Track> getTrackLD() {
+        return trackLD;
+    }
+    public void setTrack(Track track) {
+        trackLD.postValue(track);
     }
 
     @SuppressWarnings("ConstantConditions")
     public void selectTrack(int position) {
-        Track track = getCurrentSetLD().getValue().getTracks().get(position);
-        repository.setTrack(track);
+        Track track = getSetLD().getValue().getTracks().get(position);
+        trackLD.setValue(track);
+        idxTrack = position;
     }
 
-    public LiveData<Set> getCurrentSetLD() {
-        return repository.getSetLD();
+    public void initTrack() {
+        trackLD.postValue(setLD.getValue().getTracks().get(idxTrack));
+    }
+
+    public LiveData<Set> getSetLD() {
+        return setLD;
     }
 
     @SuppressWarnings("ConstantConditions")
     public void selectSet(int position) {
-        Set set = getSetsLD().getValue().get(position);
-        repository.setSet(set);
+        Set set = repository.getLibraryLD().getValue().getSets().get(position);
+        setSetLD(set);
+    }
+
+    public void setSetLD(Set set) {
+        setLD.setValue(set);
     }
 
     public LiveData<ArrayList<Set>> getSetsLD() {
-        return repository.getSetsLD();
+        return Transformations.map(repository.getLibraryLD(), Library::getSets);
     }
 
     /** Return the position of the track in the recycler view */
     @SuppressWarnings("ConstantConditions")
     public int getTrackPosition(long id) {
-        ArrayList<Track> tracks = getCurrentSetLD().getValue().getTracks();
+        ArrayList<Track> tracks = getSetLD().getValue().getTracks();
         for (Track track: tracks) {
             if (track.getId() == id) return tracks.indexOf(track);
         }
@@ -67,5 +92,28 @@ public class LibraryViewModel extends ViewModel {
             if (set.getId() == id) return sets.indexOf(set);
         }
         return -1;
+    }
+
+    /** Functions for editing tracks */
+    public Tempo getTempo() {
+        return getTrackLD().getValue().getTempo();
+    }
+
+    public void setBPM(double bpm) {
+        Track track = getTrackLD().getValue();
+        track.setBPM(bpm);
+        trackLD.postValue(track);
+    }
+
+    public void setTitle(String title) {
+        Track track = getTrackLD().getValue();
+        track.setTitle(title);
+        trackLD.postValue(track);
+    }
+
+    public void setComment(String comment) {
+        Track track = getTrackLD().getValue();
+        track.setComment(comment);
+        trackLD.postValue(track);
     }
 }

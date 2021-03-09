@@ -17,19 +17,17 @@ import java.util.Locale;
 
 public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHolder> {
 
-    private LiveViewModel viewModel;
-    private ArrayList<Track> tracks;
+    private ArrayList<Track> tracks = new ArrayList<>();
     INotifyItemClickListener listener;
     private int selected;
 
-    public TrackAdapter(LiveViewModel viewModel, ArrayList<Track> tracks, INotifyItemClickListener listener) {
-        this.viewModel = viewModel;
-        this.tracks = tracks;
+    public TrackAdapter(INotifyItemClickListener listener) {
         this.listener = listener;
     }
 
     public void setTracks(ArrayList<Track> tracks) {
         this.tracks = tracks;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,22 +45,14 @@ public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.TrackViewHol
         holder.number.setText(String.format(Locale.GERMANY, "%d", position + 1)); // start with 1
         holder.bpm.setText(String.format(Locale.GERMANY, "%3.0f", tracks.get(position).getTempo().getBpm()));
         holder.itemView.setOnClickListener(view -> {
-            if (position == viewModel.getSelectedLD().getValue()) {
-                viewModel.setRunState(!viewModel.getRunStateLD().getValue());
-            } else {
-                viewModel.setSelected(position);
-                if (!viewModel.getRunStateLD().getValue()) {
-                    viewModel.setRunState(true);
-                }
-            }
-
             listener.notifyClick(position);
+            selected = position;
         });
         holder.itemView.setOnLongClickListener(view -> {
             listener.notifyLongClick(position);
             return true;
         });
-        if (position == viewModel.getSelectedLD().getValue()) {
+        if (position == selected) {
             holder.itemView.setSelected(true);
         } else {
             holder.itemView.setSelected(false);

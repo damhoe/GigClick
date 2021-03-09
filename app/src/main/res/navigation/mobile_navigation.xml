@@ -13,7 +13,6 @@
         <action
             android:id="@+id/details_set_action"
             app:destination="@id/setFragment"
-            app:popUpTo="@id/navigation_library"
             />
     </fragment>
 
@@ -50,7 +49,7 @@
     <fragment
         android:id="@+id/navigation_live"
         android:name="com.damhoe.gigclick.ui.live.LiveFragment"
-        android:label="Live"
+        android:label=""
         tools:layout="@layout/fragment_live" />
 
     <fragment
@@ -66,7 +65,7 @@
     <fragment
         android:id="@+id/setFragment"
         android:name="com.damhoe.gigclick.ui.library.SetFragment"
-        android:label="@string/title_library"
+        android:label="@string/title_set"
         tools:layout="@layout/fragment_set" >
         <argument android:name="set_title"
             app:argType="string" />
@@ -82,8 +81,8 @@
 
     <fragment
         android:id="@+id/trackFragment"
-        android:name="com.damhoe.gigclick.ui.track.TrackFragment"
-        android:label="@string/track_details"
+        android:name="com.damhoe.gigclick.ui.library.TrackFragment"
+        android:label="@string/title_track_details"
         tools:layout="@layout/fragment_track">
         <argument android:name="title_id"
             app:argType="string" />
@@ -99,7 +98,22 @@
         android:id="@+id/editTrackFragment"
         android:name="com.damhoe.gigclick.ui.track.EditTrackFragment"
         android:label="@string/title_edit_track"
-        tools:layout="@layout/fragment_edit_track" />
+        tools:layout="@layout/fragment_edit_track" >
+        <argument
+            android:name="id"
+            app:argType="long"
+            />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="comment"
+            app:argType="string"
+            />
+        <argument
+            android:name="bpm"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/soundDialog"
         android:name="com.damhoe.gigclick.ui.metronome.SoundDialog"

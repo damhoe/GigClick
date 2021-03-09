@@ -13,7 +13,7 @@ public class Set {
 
     public Set(String title) {
         this.title = title;
-        this.id = System.currentTimeMillis();
+        this.id = System.nanoTime();
         this.date = new Date();
         this.tracks = new ArrayList<>();
     }
@@ -58,6 +58,15 @@ public class Set {
         return date;
     }
 
+    public int editTrack(Track track) {
+        int pos = getTrackPosById(track.getId());
+        if (pos != -1) {
+            tracks.set(pos, track);
+            return 0;
+        }
+        return 1;
+    }
+
     public static ArrayList<Set> getExampleSets() {
         int size = 5;
 
@@ -69,5 +78,12 @@ public class Set {
         }
 
         return sets;
+    }
+
+    private int getTrackPosById(long id) {
+        for (Track mTrack: tracks) {
+            if (mTrack.getId() == id) return tracks.indexOf(mTrack);
+        }
+        return -1;
     }
 }

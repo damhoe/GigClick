@@ -12,16 +12,28 @@ import com.damhoe.gigclick.INotifyItemClickListener;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Set;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetViewHolder> {
 
-    private LibraryViewModel viewModel;
     private INotifyItemClickListener listener;
+    private ArrayList<Set> sets = new ArrayList<>();
 
-    public SetAdapter(LibraryViewModel viewModel, INotifyItemClickListener listener) {
-        this.viewModel = viewModel;
+    public SetAdapter(INotifyItemClickListener listener) {
         this.listener = listener;
+        setHasStableIds(true);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return sets.get(position).getId();
+    }
+
+    public void setSets(ArrayList<Set> sets) {
+        this.sets = sets;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -33,17 +45,16 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetViewHolder> {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void onBindViewHolder(@NonNull SetAdapter.SetViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SetViewHolder holder, int position) {
 
-        Set set = viewModel.getSetsLD().getValue().get(position);
+        Set set = sets.get(position);
         holder.title.setText(set.getTitle());
 
-        if (set.getDate() != null) {
-            holder.date.setText("TODO...");
-        }
+        SimpleDateFormat df = new SimpleDateFormat("MMM, d ''yy");
+        holder.date.setText(df.format(set.getDate()));
+
         holder.nTracks.setText(String.format(Locale.GERMANY, "%d", set.getNumberOfTracks()));
         holder.itemView.setOnClickListener(view -> {
-            viewModel.selectSet(position);
             listener.notifyClick(position, holder);
         });
         holder.itemView.setOnLongClickListener(view -> {
@@ -52,15 +63,15 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetViewHolder> {
         });
 
         // set the transition names
-        holder.title.setTransitionName("set_title_" + position);
-        holder.date.setTransitionName("set_data_" + position);
-        holder.nTracks.setTransitionName("set_ntracks_" + position);
+        holder.title.setTransitionName("set_title_" + set.getId());
+        holder.date.setTransitionName("set_data_" + set.getId());
+        holder.nTracks.setTransitionName("set_ntracks_" + set.getId());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public int getItemCount() {
-        return viewModel.getSetsLD().getValue().size();
+        return sets.size();
     }
 
     static class SetViewHolder extends RecyclerView.ViewHolder {

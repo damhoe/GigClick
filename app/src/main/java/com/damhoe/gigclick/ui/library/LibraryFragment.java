@@ -45,10 +45,9 @@ public class LibraryFragment extends Fragment implements INotifyItemClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(LibraryViewModel.class);
-        Transition transition = TransitionInflater.from(getContext()).inflateTransition(R.transition.source_exit_transition);
-        setExitTransition(transition);
+        viewModel = new ViewModelProvider(requireActivity()).get(LibraryViewModel.class);
         postponeEnterTransition();
+
         Transition returnTransition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
         setSharedElementReturnTransition(returnTransition);
     }
@@ -60,11 +59,11 @@ public class LibraryFragment extends Fragment implements INotifyItemClickListene
         if (binding == null) {
             binding = DataBindingUtil.inflate(inflater, R.layout.fragment_library, container, false);
         }
+
         // enable title
-        mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null) {
-            mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        }
+        mainActivity = (MainActivity) requireActivity();
+        mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         // postponeEnterTransition();
 
         setHasOptionsMenu(true);
@@ -80,13 +79,20 @@ public class LibraryFragment extends Fragment implements INotifyItemClickListene
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (adapter == null) {
-            adapter = new SetAdapter(viewModel, this);
+            adapter = new SetAdapter(this);
             binding.recycler.setAdapter(adapter);
             binding.recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             binding.recycler.addItemDecoration(new TrackItemDivider(getContext(), DividerItemDecoration.VERTICAL));
         }
+
         startPostponedEnterTransition();
+
+        viewModel.getSetsLD().observe(getViewLifecycleOwner(), sets -> {
+            adapter.setSets(sets);
+        });
+
 //        adapter = new LibraryPagerAdapter(this, this);
 //        binding.pager.setAdapter(adapter);
 //        new TabLayoutMediator(binding.tabLayout, binding.pager, ((tab, position) -> {
@@ -115,8 +121,9 @@ public class LibraryFragment extends Fragment implements INotifyItemClickListene
     @SuppressWarnings("ConstantConditions")
     @Override
     public void notifyClick(int position, RecyclerView.ViewHolder view) {
-        SetAdapter.SetViewHolder holder = (SetAdapter.SetViewHolder) view;
+        viewModel.selectSet(position);
 
+        SetAdapter.SetViewHolder holder = (SetAdapter.SetViewHolder) view;
         setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.source_exit_transition));
 
         // go to set fragment

@@ -98,11 +98,16 @@ public class LiveFragment extends Fragment {
             binding.buttonPlay.setImageDrawable(drawable);
         });
 
-        viewModel.getSelectedLD().observe(getViewLifecycleOwner(), this::updateUI);
+
         viewModel.getxLD().observe(getViewLifecycleOwner(), x -> {
             binding.pendulumForeground.setPositionX(x);
         });
 
+        viewModel.getSetLD().observe(getViewLifecycleOwner(), set -> {
+            adapter.setTracks(set.getTracks());
+        });
+
+        viewModel.getTrackLD().observe(getViewLifecycleOwner(), this::updateUI);
         return binding.getRoot();
     }
 
@@ -114,27 +119,31 @@ public class LiveFragment extends Fragment {
     private TrackAdapter adapter;
 
     @SuppressWarnings("ConstantConditions")
-    private void updateUI(int selected) {
-
+    private void updateUI(Track track) {
         // show current playing Track in preview
-        Track track = viewModel.getTrackLD().getValue();
-
         binding.textBpm.setText(String.format(Locale.GERMANY, "%3.0f", track.getTempo().getBpm()));
         //binding.textTempo.setText(track.getTempo().getLabel());
         binding.textTitle.setText(track.getTitle());
         //binding.textComment.setText(track.getComment());
         //binding.textArtist.setText(track.getArtist());
-        binding.textTrackNumber.setText(String.format(Locale.GERMANY, "%d", selected + 1));
+        binding.textTrackNumber.setText(String.format(Locale.GERMANY, "%d", viewModel.getTrackNumber(track.getId())));
         adapter.notifyDataSetChanged();
     }
 
     private void setUpTrackRecyclerView() {
-        adapter = new TrackAdapter(viewModel, viewModel.getSetLD().getValue().getTracks(),
+        adapter = new TrackAdapter(
                 new INotifyItemClickListener() {
                     @SuppressWarnings("ConstantConditions")
                     @Override
                     public void notifyClick(int position) {
-                        // ignore.
+                        if (position == viewModel.getSelectedLD().getValue()) {
+                            viewModel.setRunState(!viewModel.getRunStateLD().getValue());
+                        } else {
+                            viewModel.setSelected(position);
+                            if (!viewModel.getRunStateLD().getValue()) {
+                                viewModel.setRunState(true);
+                            }
+                        }
                     }
 
                     @Override

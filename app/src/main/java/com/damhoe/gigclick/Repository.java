@@ -18,6 +18,8 @@ public class Repository {
     private static Repository repository = null;
 
     // stored data
+    private final MutableLiveData<Library> libraryLD = new MutableLiveData<>();
+
     private final MutableLiveData<ArrayList<Track>> allTracksLD;
     private final MutableLiveData<ArrayList<Set>> setsLD;
 
@@ -31,6 +33,8 @@ public class Repository {
 
     @SuppressWarnings("ConstantConditions")
     public Repository() {
+        libraryLD.setValue(Library.createExampleLibrary());
+
         setsLD = new MutableLiveData<>();
         setsLD.setValue(Set.getExampleSets());
         allTracksLD = new MutableLiveData<>();
@@ -58,8 +62,12 @@ public class Repository {
         return repository;
     }
 
-    public void setAllTracksLD(ArrayList<Track> tracks) {
-        allTracksLD.postValue(tracks);
+    public void setLibrary(Library library) {
+        libraryLD.postValue(library);
+    }
+
+    public LiveData<Library> getLibraryLD() {
+        return libraryLD;
     }
 
     public LiveData<ArrayList<Track>> getAllTracksLD() {
@@ -72,6 +80,11 @@ public class Repository {
 
     public void setSetsLD(ArrayList<Set> sets) {
         setsLD.postValue(sets);
+        ArrayList<Track> tracks = new ArrayList<>();
+        for (Set set: getSetsLD().getValue()) {
+            tracks.addAll(set.getTracks());
+        }
+        allTracksLD.postValue(tracks);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -161,4 +174,5 @@ public class Repository {
     public void setSet(Set set) {
         setLD.postValue(set);
     }
+
 }
