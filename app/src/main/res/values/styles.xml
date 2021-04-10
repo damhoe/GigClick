@@ -15,12 +15,11 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="fontFamily">@font/overlock</item>
-        <item name="android:textColor">@color/text_color_state</item>
-        <item name="windowActionBar">false</item>
-        <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
 
-        <item name="alertDialogStyle">@style/GigClickTheme.AlertDialog</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/colorBackgroundDark</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
 
         <item name="colorNavigationItem">@color/menu_item_color_state</item>
         <item name="colorNavigationItemSelected">@color/colorTextSecondary</item>
@@ -29,21 +28,80 @@
         <item name="textInputStyle">@style/GigClickTheme.TextInputLayout</item>
     </style>
 
-    <style name="GigClickTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="android:background">@color/colorBackground</item>
-        <item name="materialAlertDialogTitleTextStyle">@style/GigClickTheme.AlertDialog.Title</item>
+    <style name="GigClickTheme.TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">32sp</item>
         <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/lora_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/lora_bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="GigClickTheme.RoundShapeMedium" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">4dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="GigClickTheme.RoundShapeLarge" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerSize">8dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="GigClickTheme.BottomSheet" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:navigationBarColor">@color/colorBackgroundDark</item>
+        <item name="shapeAppearanceLargeComponent">@style/GigClickTheme.RoundShapeLarge</item>
+    </style>
+
+    <style name="GigClickTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="materialAlertDialogTitleTextStyle">@style/GigClickTheme.AlertDialog.TitleText</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/GigClickTheme.AlertDialog.BodyText</item>
         <item name="android:checkedTextViewStyle">@style/GigClickTheme.CheckedTextView</item>
         <item name="buttonBarPositiveButtonStyle">@style/GigClickTheme.PositiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/GigClickTheme.NegativeButton</item>
-        <item name="shapeAppearanceOverlay">@style/RoundShapeAppearance</item>
+        <item name="shapeAppearanceMediumComponent">@style/GigClickTheme.RoundShapeMedium</item>
     </style>
 
-    <style name="GigClickTheme.AlertDialog.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+    <style name="GigClickTheme.AlertDialog.TitleText" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
         <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="GigClickTheme.AlertDialog.BodyText" parent="">
+        <item name="android:textColor">@color/colorTextWeak</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 
     <style name="RoundShapeAppearance" parent="">
         <item name="cornerFamily">rounded</item>
@@ -59,8 +117,8 @@
         <item name="backgroundTint">@color/positive_button_state</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="rippleColor">@color/colorPrimaryLight</item>
+        <item name="shapeAppearanceOverlay">@style/GigClickTheme.ButtonShapeAppearance</item>
     </style>
-
 
     <style name="GigClickTheme.NegativeButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/colorAccent</item>
@@ -150,7 +208,7 @@
     <style name="NavigationDrawerStyle" parent="Widget.MaterialComponents.NavigationView">
 
         <item name="android:textSize">16sp</item><!-- text size in menu-->
-        <item name="android:fontFamily">@font/lato</item>
+        <item name="android:fontFamily">@font/lora_bold</item>
         <item name="colorControlNormal">@color/colorBackgroundDark</item>
 
         <!-- item size in menu-->
@@ -169,6 +227,9 @@
         <item name="itemIconTint">?attr/colorNavigationItem</item>
         <item name="itemTextColor">?attr/colorNavigationItem</item>
         <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
+        <item name="itemTextAppearance">@style/GigClickTheme.TextAppearance.Body1</item>
+        <item name="textAppearanceSubtitle1">@style/GigClickTheme.TextAppearance.Overline</item>
+        <item name="text">@font/lora_bold</item>
     </style>
 
     <style name="GigClickTheme.Picker" parent="Theme.MaterialComponents.Light.NoActionBar" >
@@ -186,7 +247,6 @@
     <style name="ThemeOverlay.App.TextInputLayout" parent="">
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox</item>
     </style>
-
 
     <color name="colorError">@android:color/holo_red_dark</color>
 </resources>

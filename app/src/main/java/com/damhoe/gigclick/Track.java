@@ -1,5 +1,7 @@
 package com.damhoe.gigclick;
 
+import androidx.annotation.NonNull;
+
 import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,11 +17,14 @@ public class Track {
     private String title;
     private String comment;
     private String artist;
+    private long setId;
     private int bpb; // beats per bar
     private PracticeOptions pOptions;
 
     // default constructor
     public Track() {
+        this.title = "New Track";
+        this.comment = "This is a new track";
         this.id = System.nanoTime();
         this.tempo = new Tempo();
         this.bpb = 4; // add 4 beats
@@ -28,6 +33,35 @@ public class Track {
             this.beats.add(new Beat());
         }
         pOptions = new PracticeOptions();
+    }
+
+    // for loading from database
+    public Track(long id, String title, double bpm, String comment, long setId) {
+        this.id = id;
+        this.tempo = new Tempo(bpm);
+        this.comment = comment;
+        this.title = title;
+        this.setId = setId;
+
+        // default parameters because not savable
+        this.bpb = 4; // add 4 beats
+        beats = new ArrayList<>();
+        for (int i=0; i<bpb; i++) {
+            this.beats.add(new Beat());
+        }
+        pOptions = new PracticeOptions();
+    }
+
+    public Track deepCopy() {
+        return new Track(id, title, tempo.getBpm(), comment, setId);
+    }
+
+    public long getSetId() {
+        return setId;
+    }
+
+    public void setSetId(long setId) {
+        this.setId = setId;
     }
 
     public ArrayList<Beat> getBeats() {

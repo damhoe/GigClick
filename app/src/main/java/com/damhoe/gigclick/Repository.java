@@ -20,9 +20,6 @@ public class Repository {
     // stored data
     private final MutableLiveData<Library> libraryLD = new MutableLiveData<>();
 
-    private final MutableLiveData<ArrayList<Track>> allTracksLD;
-    private final MutableLiveData<ArrayList<Set>> setsLD;
-
     // metronome data
     private final MutableLiveData<Boolean> isRunningLD;
     private final MutableLiveData<Track> trackLD; // information about beats
@@ -33,16 +30,7 @@ public class Repository {
 
     @SuppressWarnings("ConstantConditions")
     public Repository() {
-        libraryLD.setValue(Library.createExampleLibrary());
-
-        setsLD = new MutableLiveData<>();
-        setsLD.setValue(Set.getExampleSets());
-        allTracksLD = new MutableLiveData<>();
-        ArrayList<Track> tracks = new ArrayList<>();
-        for (Set set: getSetsLD().getValue()) {
-            tracks.addAll(set.getTracks());
-        }
-        allTracksLD.setValue(tracks);
+        libraryLD.setValue(Library.createEmptyLibrary());
 
         isRunningLD = new MutableLiveData<>();
         isRunningLD.setValue(false);
@@ -68,39 +56,6 @@ public class Repository {
 
     public LiveData<Library> getLibraryLD() {
         return libraryLD;
-    }
-
-    public LiveData<ArrayList<Track>> getAllTracksLD() {
-        return allTracksLD;
-    }
-
-    public LiveData<ArrayList<Set>> getSetsLD() {
-        return setsLD;
-    }
-
-    public void setSetsLD(ArrayList<Set> sets) {
-        setsLD.postValue(sets);
-        ArrayList<Track> tracks = new ArrayList<>();
-        for (Set set: getSetsLD().getValue()) {
-            tracks.addAll(set.getTracks());
-        }
-        allTracksLD.postValue(tracks);
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public Track getTrackById(long id) {
-        for (Track mTrack: getAllTracksLD().getValue()) {
-            if (mTrack.getId() == id) return mTrack;
-        }
-        return null;
-    }
-
-    @SuppressWarnings("ConstantConditions")
-    public Set getSetById(long id) {
-        for (Set mSet: getSetsLD().getValue()) {
-            if (mSet.getId() == id) return mSet;
-        }
-        return null;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -175,4 +130,46 @@ public class Repository {
         setLD.postValue(set);
     }
 
+    public void sortLibBy(int key) {
+        Library lib = getLibraryLD().getValue();
+        lib.sortBy(key);
+        setLibrary(lib);
+    }
+
+
+    /** Interactions with database.
+     *
+     */
+
+    public void initLibFromDb(DbSource source) {
+        setLibrary(source.loadLibFromDb());
+    }
+
+    public void set2Db(Set set, DbSource source) {
+        source.set2Db(set);
+        // update data
+        setLibrary(source.loadLibFromDb());
+    }
+
+    public void updateSet(Set set, DbSource source) {
+        source.updateSet(set);
+        // update data
+        setLibrary(source.loadLibFromDb());
+    }
+
+    public void delSetFromDb(long id, DbSource source) {
+        source.deleteSet(id);
+        // update data
+        setLibrary(source.loadLibFromDb());
+    }
+
+    public void updateTrack(Track track, DbSource source) {
+        source.updateTrack(track);
+        setLibrary(source.loadLibFromDb());
+    }
+
+    public void updateSetMeta(Set set, DbSource source) {
+        source.updateSetMeta(set);
+        setLibrary(source.loadLibFromDb());
+    }
 }

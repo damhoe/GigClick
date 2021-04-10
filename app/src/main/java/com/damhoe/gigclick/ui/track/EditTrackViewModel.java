@@ -10,8 +10,10 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.damhoe.gigclick.DbSource;
 import com.damhoe.gigclick.Library;
 import com.damhoe.gigclick.Repository;
+import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.Track;
 
@@ -22,10 +24,16 @@ public class EditTrackViewModel extends AndroidViewModel {
     public MutableLiveData<Tempo> tempoLD = new MutableLiveData<>();
 
     private Track track;
+    private boolean isNew;
+    private final Repository repo;
 
-    public EditTrackViewModel(@NonNull Application application, Track track) {
+    public EditTrackViewModel(@NonNull Application application, Track track, boolean isNew) {
         super(application);
+        repo = Repository.getInstance();
+
+        this.isNew = isNew;
         this.track = track;
+
         titleLD.setValue(track.getTitle());
         commentLD.setValue(track.getComment());
         tempoLD.setValue(track.getTempo());
@@ -54,9 +62,14 @@ public class EditTrackViewModel extends AndroidViewModel {
         track.setTitle(titleLD.getValue());
         track.setComment(commentLD.getValue());
 
-        Repository repo = Repository.getInstance();
-        Library library = repo.getLibraryLD().getValue();
-        library.updateTrack(track);
-        repo.setLibrary(library);
+        DbSource source = new DbSource(getApplication());
+
+        if (isNew) {
+            Set set = repo.getLibraryLD().getValue().getSetById(track.getSetId());
+            set.addTrack(track);
+            repo.updateSet(set, source);
+        } else {
+            repo.updateTrack(track, source);
+        }
     }
 }

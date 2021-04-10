@@ -1,5 +1,6 @@
 package com.damhoe.gigclick.ui.track;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,6 +28,9 @@ import static com.damhoe.gigclick.ui.metronome.MetronomeFragment.FACTOR_ANGLE_TO
 
 public class EditTrackFragment extends Fragment {
 
+    public static final int TRACK_ID_KEY = 0;
+    public static final int SET_ID_KEY = 1;
+
     private FragmentEditTrackBinding binding;
     private EditTrackViewModel viewModel;
 
@@ -37,12 +42,19 @@ public class EditTrackFragment extends Fragment {
                 this, getArguments());
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_track, container, false);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
+
+        binding.rotaryForeground.setOnTouchListener((view, motionEvent) -> {
+            binding.scrollview.requestDisallowInterceptTouchEvent(true);
+            binding.rotaryForeground.onTouchEvent(motionEvent);
+            return false;
+        });
 
         ((RotaryView) binding.rotaryForeground).setNotifyListener(new INotifyListener() {
             @Override

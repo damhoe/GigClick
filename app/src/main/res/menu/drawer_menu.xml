@@ -4,7 +4,7 @@
     tools:showIn="navigation_view">
 
     <item android:title="@string/title_group_mode"
-        android:id="@+id/item_storage">
+        android:id="@+id/item_mode">
 
         <menu>
 
@@ -29,23 +29,31 @@
 
     </item>
 
-    <group android:id="@+id/group_actions"
-        android:checkableBehavior="single">
+    <item
+        android:id="@+id/item_storage"
+        android:title="@string/title_group_storage"
+        >
+        <menu>
 
-        <item
-            android:id="@id/navigation_library"
-            android:title="@string/title_library"
-            android:icon="@drawable/ic_library_black_24dp" />
+        <group android:id="@+id/group_actions"
+            android:checkableBehavior="single">
 
-    </group>
+            <item
+                android:id="@id/navigation_library"
+                android:title="@string/title_library"
+                android:icon="@drawable/ic_library_black_24dp" />
 
-    <group android:checkableBehavior="single"
+        </group>
+
+        </menu>
+    </item>
+
+
+
+    <group
+        android:checkableBehavior="single"
         android:id="@+id/group_settings">
 
-        <item
-            android:id="@+id/menu_settings"
-            android:icon="@drawable/ic_round_settings_24dp"
-            android:title="@string/title_settings" />
 
         <item
             android:id="@+id/menu_about"

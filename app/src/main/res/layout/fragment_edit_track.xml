@@ -15,214 +15,252 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/label_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_title"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorTextDisabled"
-                    android:textAllCaps="true"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/colorSecondary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:elevation="8dp"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorBackgroundDark"
+            app:layout_constraintBottom_toTopOf="@id/button_apply"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="4dp"
+            />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollview"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/colorBackground"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="56dp">
+
+                        <TextView
+                            android:id="@+id/label_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_title"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorTextDisabled"
+                            android:textAllCaps="true"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp" />
 
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_title"
-                    app:layout_constraintTop_toBottomOf="@id/label_title"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:endIconMode="clear_text"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="30"
-                    app:helperText="@string/required"
-                    >
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_title"
+                            app:layout_constraintTop_toBottomOf="@id/label_title"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:endIconMode="clear_text"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="30"
+                            app:helperText="@string/required"
+                            >
 
-                    <EditText
-                        android:id="@+id/edit_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLength="30"
-                        android:maxLines="1"
-                        android:inputType="text"
-                        android:text="@={viewModel.titleLD}"
-                        android:textSize="20sp" />
+                            <EditText
+                                android:id="@+id/edit_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxLength="30"
+                                android:maxLines="1"
+                                android:inputType="text"
+                                android:text="@={viewModel.titleLD}"
+                                android:textSize="20sp" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/label_tempo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_tempo"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorTextDisabled"
-                    android:textAllCaps="true"
-                    app:layout_constraintTop_toBottomOf="@id/input_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp" />
+                        <TextView
+                            android:id="@+id/label_tempo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_tempo"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorTextDisabled"
+                            android:textAllCaps="true"
+                            app:layout_constraintTop_toBottomOf="@id/input_title"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp" />
 
-                <TextView
-                    android:id="@+id/text_bpm"
-                    android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:textAlignment="center"
-                    android:includeFontPadding="false"
-                    android:textSize="56sp"
-                    android:text="@{viewModel.tempoLD.bpmText}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/input_title" />
+                        <TextView
+                            android:id="@+id/text_bpm"
+                            android:layout_width="96dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:textAlignment="center"
+                            android:includeFontPadding="false"
+                            android:textSize="56sp"
+                            android:text="@{viewModel.tempoLD.bpmText}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/input_title" />
 
-                <TextView
-                    android:id="@+id/label_bpm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:text="@string/label_bpm"
-                    android:textColor="@color/colorTextDisabled"
-                    android:textSize="12sp"
-                    android:gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/text_bpm"
-                    app:layout_constraintTop_toTopOf="@id/text_bpm"
-                    app:layout_constraintBottom_toBottomOf="@id/text_bpm" />
+                        <TextView
+                            android:id="@+id/label_bpm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:text="@string/label_bpm"
+                            android:textColor="@color/colorTextDisabled"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginStart="4dp"
+                            app:layout_constraintStart_toEndOf="@+id/text_bpm"
+                            app:layout_constraintTop_toTopOf="@id/text_bpm"
+                            app:layout_constraintBottom_toBottomOf="@id/text_bpm" />
 
-                <TextView
-                    android:id="@+id/text_tempo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:text="@{viewModel.tempoLD.label}"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorTextWeak"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    app:layout_constraintEnd_toEndOf="@+id/text_bpm"
-                    app:layout_constraintStart_toStartOf="@+id/text_bpm"
-                    app:layout_constraintTop_toBottomOf="@+id/text_bpm" />
+                        <TextView
+                            android:id="@+id/text_tempo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="5"
+                            android:text="@{viewModel.tempoLD.label}"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorTextWeak"
+                            android:textSize="16sp"
+                            android:textStyle="italic"
+                            app:layout_constraintEnd_toEndOf="@+id/text_bpm"
+                            app:layout_constraintStart_toStartOf="@+id/text_bpm"
+                            app:layout_constraintTop_toBottomOf="@+id/text_bpm" />
 
-                <TextView
-                    android:id="@+id/label_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/label_comment"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorTextDisabled"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rotary_background" />
+                        <TextView
+                            android:id="@+id/label_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/label_comment"
+                            android:textAllCaps="true"
+                            android:textColor="@color/colorTextDisabled"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/rotary_background" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/input_comment"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="24dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintTop_toBottomOf="@id/label_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="40"
-                    app:endIconMode="clear_text"
-                    app:helperText="@string/helper_comment"
-                    >
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/input_comment"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@id/label_comment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="40"
+                            app:endIconMode="clear_text"
+                            app:helperText="@string/helper_comment"
+                            >
 
-                    <EditText
-                        android:id="@+id/edit_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:maxLength="40"
-                        android:maxLines="1"
-                        android:text="@={viewModel.commentLD}"
-                        android:textSize="16sp"
-                        />
+                            <EditText
+                                android:id="@+id/edit_comment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:maxLength="40"
+                                android:maxLines="1"
+                                android:text="@={viewModel.commentLD}"
+                                android:textSize="16sp"
+                                />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/rotary_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/rotary_knob_background"
-                    app:layout_constraintTop_toBottomOf="@id/text_tempo"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="24dp"
-                    />
+                        <ImageView
+                            android:id="@+id/rotary_background"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/rotary_knob_background"
+                            app:layout_constraintTop_toBottomOf="@id/text_tempo"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:layout_marginTop="24dp"
+                            />
 
-                <com.damhoe.gigclick.ui.metronome.RotaryView
-                    android:id="@+id/rotary_foreground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/rotary_background"
-                    app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-                    app:layout_constraintStart_toStartOf="@id/rotary_background"
-                    app:layout_constraintEnd_toEndOf="@id/rotary_background">
+                        <com.damhoe.gigclick.ui.metronome.RotaryView
+                            android:id="@+id/rotary_foreground"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@id/rotary_background"
+                            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+                            app:layout_constraintStart_toStartOf="@id/rotary_background"
+                            app:layout_constraintEnd_toEndOf="@id/rotary_background">
 
-                    <com.damhoe.gigclick.ui.RotatableImageView
-                        android:id="@+id/knob"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/rotary_knob_foreground"
-                        android:contentDescription="@string/content_knob" />
+                            <com.damhoe.gigclick.ui.RotatableImageView
+                                android:id="@+id/knob"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/rotary_knob_foreground"
+                                android:contentDescription="@string/content_knob" />
 
-                    <com.damhoe.gigclick.ui.RotatableImageView
-                        android:nestedScrollingEnabled="false"
-                        android:id="@+id/ring"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/rotary_ring_unpressed"
-                        android:contentDescription="@string/content_ring" />
+                            <com.damhoe.gigclick.ui.RotatableImageView
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/ring"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/rotary_ring_unpressed"
+                                android:contentDescription="@string/content_ring" />
 
-                </com.damhoe.gigclick.ui.metronome.RotaryView>
+                        </com.damhoe.gigclick.ui.metronome.RotaryView>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_increase"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    app:icon="@drawable/ic_next_black_24dp"
-                    app:layout_constraintTop_toTopOf="@id/rotary_background"
-                    app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-                    app:layout_constraintStart_toEndOf="@id/rotary_background"
-                    android:layout_marginStart="16dp"
-                    style="@style/GigClickTheme.IconButton" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_increase"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            app:icon="@drawable/ic_next_black_24dp"
+                            app:layout_constraintTop_toTopOf="@id/rotary_background"
+                            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+                            app:layout_constraintStart_toEndOf="@id/rotary_background"
+                            android:layout_marginStart="16dp"
+                            style="@style/GigClickTheme.IconButton" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_decrease"
-                    android:layout_width="56dp"
-                    style="@style/GigClickTheme.IconButton"
-                    android:layout_height="56dp"
-                    app:icon="@drawable/ic_before_black_24dp"
-                    app:layout_constraintTop_toTopOf="@id/rotary_background"
-                    app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-                    app:layout_constraintEnd_toStartOf="@id/rotary_background"
-                    android:layout_marginEnd="16dp" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_decrease"
+                            android:layout_width="56dp"
+                            style="@style/GigClickTheme.IconButton"
+                            android:layout_height="56dp"
+                            app:icon="@drawable/ic_before_black_24dp"
+                            app:layout_constraintTop_toTopOf="@id/rotary_background"
+                            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+                            app:layout_constraintEnd_toStartOf="@id/rotary_background"
+                            android:layout_marginEnd="16dp" />
 
-                <TextView
-                    android:id="@+id/button_tap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/rotary_background"
-                    app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-                    app:layout_constraintStart_toStartOf="@id/rotary_background"
-                    app:layout_constraintEnd_toEndOf="@id/rotary_background"
-                    android:text="@string/label_tap"
-                    android:textColor="@color/colorTextDisabled"
-                    android:textSize="16sp"
-                    android:textStyle="italic"
-                    android:textAllCaps="true"
-                    android:ems="2"
-                    android:gravity="center"
-                    />
+                        <TextView
+                            android:id="@+id/button_tap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@id/rotary_background"
+                            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+                            app:layout_constraintStart_toStartOf="@id/rotary_background"
+                            app:layout_constraintEnd_toEndOf="@id/rotary_background"
+                            android:text="@string/label_tap"
+                            android:textColor="@color/colorTextDisabled"
+                            android:textSize="16sp"
+                            android:textStyle="italic"
+                            android:textAllCaps="true"
+                            android:ems="2"
+                            android:gravity="center"
+                            />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_apply"
@@ -230,8 +268,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             style="@style/GigClickTheme.PositiveButton"
             android:enabled="false"
@@ -250,5 +287,4 @@
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

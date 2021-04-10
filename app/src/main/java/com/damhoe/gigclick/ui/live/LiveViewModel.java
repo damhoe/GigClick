@@ -55,13 +55,33 @@ public class LiveViewModel extends ViewModel {
         repository.setTrack(getSetLD().getValue().getTracks().get(position));
     }
 
-    public LiveData<ArrayList<Track>> getBibLD() {
-        return repository.getAllTracksLD();
-    }
-
     public LiveData<Set> getSetLD() {
         // filter the current set
         return setLD;
+    }
+
+    public void setSet(Set set) {
+        setLD.postValue(set);
+    }
+
+    public ArrayList<Set> getSets() {
+        return repository.getLibraryLD().getValue().getSets();
+    }
+
+    public int getCurrentSetIndex() {
+        Library lib = repository.getLibraryLD().getValue();
+        long id = getSetLD().getValue().getId();
+        return lib.getSetIndex(id);
+    }
+
+    public String[] getSetTitles() {
+        ArrayList<Set> sets = repository.getLibraryLD().getValue().getSets();
+        int N = sets.size();
+        String[] titles = new String[N];
+        for (int k=0; k<N; k++) {
+            titles[k] = sets.get(k).getTitle();
+        }
+        return titles;
     }
 
     public LiveData<Boolean> getRunStateLD() {

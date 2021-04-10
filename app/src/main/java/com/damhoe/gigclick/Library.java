@@ -5,6 +5,10 @@ import java.util.ListResourceBundle;
 
 public class Library {
 
+    public static final int POPULARITY = 11;
+    public static final int DATE = 12;
+    public static final int NAME = 13;
+
     /**
      * The Library class contains all sets and tracks.
      *
@@ -43,8 +47,22 @@ public class Library {
         return null;
     }
 
-    public void getSetById(long id) {
-        // TODO
+    public Set getSetById(long id) {
+        for (Set set: sets) {
+            if (id == set.getId()) {
+                return set;
+            }
+        }
+        return null;
+    }
+
+    public int getSetIndex(long id) {
+        for (int k=0; k<sets.size(); k++) {
+            if (sets.get(k).getId() == id) {
+                return k;
+            }
+        }
+        return -1;
     }
 
     public void setSets(ArrayList<Set> sets) {
@@ -72,5 +90,13 @@ public class Library {
         Library lib = new Library();
         lib.setSets(Set.getExampleSets());
         return lib;
+    }
+
+    public static Library createEmptyLibrary() {
+        return new Library();
+    }
+
+    public void sortBy(int key) {
+        // sort algorithm
     }
 }

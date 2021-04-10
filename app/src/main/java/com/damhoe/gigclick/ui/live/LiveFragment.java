@@ -29,6 +29,7 @@ import android.widget.ListAdapter;
 import com.damhoe.gigclick.INotifyItemClickListener;
 import com.damhoe.gigclick.MainActivity;
 import com.damhoe.gigclick.R;
+import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.Track;
 import com.damhoe.gigclick.databinding.FragmentLiveBinding;
 import com.damhoe.gigclick.ui.TrackItemDivider;
@@ -60,7 +61,8 @@ public class LiveFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_live, container, false);
-
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(getViewLifecycleOwner());
         mainActivity = (MainActivity) getActivity();
 
         setUpTrackRecyclerView();
@@ -71,17 +73,18 @@ public class LiveFragment extends Fragment {
         });
 
         binding.buttonSelectSet.setOnClickListener(v -> {
-
-            String[] setTitles = {"Set 1", "set 2", "set 3"};
-            int selected = 2;
+            int selected = viewModel.getCurrentSetIndex();
 
             new MaterialAlertDialogBuilder(getContext(), R.style.GigClickTheme_AlertDialog)
                     .setTitle(getResources().getString(R.string.dialog_select_set_title))
                     .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.cancel())
                     .setPositiveButton("Apply", ((dialogInterface, i) -> {
+                        int idx = ((AlertDialog) dialogInterface).getListView().getCheckedItemPosition();
+                        Set set = viewModel.getSets().get(idx);
+                        viewModel.setSet(set);
                         dialogInterface.cancel();
                     }))
-                    .setSingleChoiceItems(setTitles, selected, (dialogInterface, i) -> {
+                    .setSingleChoiceItems(viewModel.getSetTitles(), selected, (dialogInterface, i) -> {
                         // ignore.
                     })
                     .show();

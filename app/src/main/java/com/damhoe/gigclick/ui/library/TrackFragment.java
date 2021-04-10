@@ -67,7 +67,7 @@ public class TrackFragment extends Fragment {
         binding.buttonEdit.setOnClickListener(view -> {
             Track track = viewModel.getTrackLD().getValue();
             findNavController().navigate(TrackFragmentDirections.actionTrackFragmentToEditTrackFragment(
-                    track.getId(), track.getTitle(), track.getComment(), (long) track.getTempo().getBpm()
+                    track.getId(), track.getSetId(), false
             ));
         });
 

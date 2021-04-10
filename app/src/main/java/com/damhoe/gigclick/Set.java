@@ -1,5 +1,6 @@
 package com.damhoe.gigclick;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -10,16 +11,30 @@ public class Set {
     private long id;
     private String title;
     private Date date;
+    private boolean isFave;
 
     public Set(String title) {
         this.title = title;
         this.id = System.nanoTime();
         this.date = new Date();
         this.tracks = new ArrayList<>();
+        this.isFave = false;
+    }
+
+    // for loading from database
+    public Set(long id, String title, long date, boolean isFave) {
+        this.title = title;
+        this.tracks = new ArrayList<>();
+        this.id = id;
+        this.date = new Date(date);
+        this.isFave = isFave;
     }
 
     public void setId(long id) {
         this.id = id;
+        for (Track track: tracks) {
+            track.setSetId(id);
+        }
     }
 
     public long getId() {
@@ -35,6 +50,7 @@ public class Set {
     }
 
     public void addTrack(Track track) {
+        track.setSetId(getId());
         tracks.add(track);
     }
 
@@ -58,6 +74,18 @@ public class Set {
         return date;
     }
 
+    public String getDateAsString() {
+        return Utility.date2String(date);
+    }
+
+    public void setFave(boolean fave) {
+        isFave = fave;
+    }
+
+    public boolean isFave() {
+        return isFave;
+    }
+
     public int editTrack(Track track) {
         int pos = getTrackPosById(track.getId());
         if (pos != -1) {
@@ -65,6 +93,10 @@ public class Set {
             return 0;
         }
         return 1;
+    }
+
+    public void deleteTrack(long id) {
+        tracks.remove(getTrackPosById(id));
     }
 
     public static ArrayList<Set> getExampleSets() {
@@ -86,4 +118,10 @@ public class Set {
         }
         return -1;
     }
+
+    public void updateTrackAt(int position, Track track) {
+        tracks.set(position, track);
+    }
+
+
 }

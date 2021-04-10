@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/menu_about"
         android:name="com.damhoe.gigclick.AboutFragment"
-        android:label="fragment_about"
+        android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/setFragment"
@@ -77,6 +77,9 @@
             android:id="@+id/action_setFragment_to_trackFragment"
             app:destination="@id/trackFragment"
             />
+        <action
+            android:id="@+id/action_setFragment_to_editTrackFragment"
+            app:destination="@id/editTrackFragment" />
     </fragment>
 
     <fragment
@@ -100,19 +103,16 @@
         android:label="@string/title_edit_track"
         tools:layout="@layout/fragment_edit_track" >
         <argument
-            android:name="id"
+            android:name="track_id"
             app:argType="long"
             />
         <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="comment"
-            app:argType="string"
+            android:name="set_id"
+            app:argType="long"
             />
         <argument
-            android:name="bpm"
-            app:argType="long" />
+            android:name="is_new"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/soundDialog"

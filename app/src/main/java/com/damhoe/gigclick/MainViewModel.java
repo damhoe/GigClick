@@ -1,20 +1,25 @@
 package com.damhoe.gigclick;
 
+import android.app.Application;
 import android.content.Context;
 import android.nfc.FormatException;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private final Repository repository;
 
-    public MainViewModel() {
+    public MainViewModel(@NonNull Application application) {
+        super(application);
         repository = Repository.getInstance();
+        repository.initLibFromDb(new DbSource(application));
     }
 
     public LiveData<Boolean> getRunStateLD() {

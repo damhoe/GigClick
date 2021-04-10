@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -32,13 +33,15 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String CHANNEL_ID = "PLAYER_STATE_CHANNEL";
-    private static final int FRAGMENT_TRANSITION_DELAY = 280;
+    private static final int FRAGMENT_TRANSITION_DELAY = 150;
 
     private MainViewModel viewModel;
     private AudioPlayer player;
     private AppBarConfiguration appBarConfiguration;
     private DrawerLayout drawer;
     private Handler handler;
+
+    private int menuItem;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -60,6 +63,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                findNavController().navigate(menuItem);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
 
         handler = new Handler();
         navView.setNavigationItemSelectedListener(this);
@@ -228,41 +253,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        @IdRes
-        int id = item.getItemId();
-        NavOptions.Builder optionsBuilder = new NavOptions.Builder();
-
-        switch (id) {
-            case R.id.navigation_metronome: {
-                // Lets assume for the first menu item navigation is default
-                optionsBuilder
-                        .setEnterAnim(R.anim.fade_in)
-                        .setExitAnim(R.anim.exit_to_bottom)
-                        .setPopEnterAnim(R.anim.fade_out)
-                        .setPopExitAnim(R.anim.fade_in);
-                }
-                break;
-            case R.id.navigation_live:
-            case R.id.navigation_library: {
-                // Lets assume for the third menu item navigation is custom
-                optionsBuilder
-                        .setEnterAnim(R.anim.enter_from_bottom)
-                        .setExitAnim(R.anim.fade_out)
-                        .setPopEnterAnim(R.anim.fade_in)
-                        .setPopExitAnim(R.anim.exit_to_bottom);
-                }
-                break;
-        }
-
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                findNavController().navigate(id, null, optionsBuilder.build());
-            }
-        }, FRAGMENT_TRANSITION_DELAY);
-
+        menuItem = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

@@ -10,7 +10,8 @@
     <item android:id="@+id/menu_sort"
         android:title="@string/title_sort"
         android:icon="@drawable/ic_round_sort_primary_24dp"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        >
 
         <menu>
             <group android:id="@+id/group_sort">
@@ -18,7 +19,8 @@
                 <item
                     android:title="@string/title_sort"
                     android:checkable="false"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    />
 
                 <item
                     android:id="@+id/menu_by_name"

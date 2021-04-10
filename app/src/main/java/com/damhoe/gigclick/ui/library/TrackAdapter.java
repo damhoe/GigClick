@@ -9,13 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.damhoe.gigclick.INotifyItemClickListener;
+import com.damhoe.gigclick.INotifyItemTouchListener;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Track;
+import com.damhoe.gigclick.ui.GigClickTouchCallback;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class TrackAdapter extends RecyclerView.Adapter<com.damhoe.gigclick.ui.library.TrackAdapter.TrackViewHolder> {
+public class TrackAdapter extends RecyclerView.Adapter<com.damhoe.gigclick.ui.library.TrackAdapter.TrackViewHolder> implements INotifyItemTouchListener {
 
     private ArrayList<Track> tracks = new ArrayList<>();
     private INotifyItemClickListener listener;
@@ -70,6 +72,16 @@ public class TrackAdapter extends RecyclerView.Adapter<com.damhoe.gigclick.ui.li
         return tracks.size();
     }
 
+    @Override
+    public void onItemMoved(int fromPosition, int toPosition) {
+
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+    }
+
     static class TrackViewHolder extends RecyclerView.ViewHolder {
 
         TextView title, comment, bpm, number;
@@ -81,5 +93,9 @@ public class TrackAdapter extends RecyclerView.Adapter<com.damhoe.gigclick.ui.li
             bpm = itemView.findViewById(R.id.text_bpm);
             number = itemView.findViewById(R.id.text_number);
         }
+    }
+
+    public Track getTrackAt(int position) {
+        return tracks.get(position);
     }
 }

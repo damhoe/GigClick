@@ -1,10 +1,16 @@
 package com.damhoe.gigclick.ui.library;
 
+import android.app.Application;
+import android.content.Context;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.damhoe.gigclick.DbSource;
 import com.damhoe.gigclick.Library;
 import com.damhoe.gigclick.Repository;
 import com.damhoe.gigclick.Set;
@@ -12,8 +18,9 @@ import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.Track;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
-public class LibraryViewModel extends ViewModel {
+public class LibraryViewModel extends AndroidViewModel {
 
     private final Repository repository = Repository.getInstance();
     private final MutableLiveData<Set> setLD = new MutableLiveData<>(); // set which can be viewed with details and edited
@@ -21,17 +28,21 @@ public class LibraryViewModel extends ViewModel {
 
     public LiveData<ArrayList<Set>> setsLD;
 
+    private DbSource source;
+
     private int idxTrack = 0;
 
-    public LibraryViewModel() {
+    public LibraryViewModel(@NonNull Application application) {
+        super(application);
         setLD.setValue(new Set(""));
         trackLD.setValue(new Track());
+        source = new DbSource(application);
+        repository.initLibFromDb(source);
     }
 
     public void sortSets(int key) {
         ArrayList<Set> sets = getSetsLD().getValue();
         // TODO: sort
-        repository.setSetsLD(sets);
     }
 
     public LiveData<Library> getLibraryLD() {
@@ -115,5 +126,33 @@ public class LibraryViewModel extends ViewModel {
         Track track = getTrackLD().getValue();
         track.setComment(comment);
         trackLD.postValue(track);
+    }
+
+    public void saveSet(Set set) {
+        repository.set2Db(set, source);
+    }
+
+    public void deleteSet(long id) {
+        repository.delSetFromDb(id, source);
+    }
+
+    public void updateSet(Set set) {
+        repository.updateSet(set, source);
+        setSetLD(set);
+    }
+
+    public void updateSetMeta(Set set) {
+        repository.updateSetMeta(set, source);
+        setSetLD(set);
+    }
+
+    public void updateTrack(Track track) {
+        repository.updateTrack(track, source);
+        Set set = getSetLD().getValue();
+        setSetLD(repository.getLibraryLD().getValue().getSetById(set.getId()));
+    }
+
+    public void sortLibBy(int key) {
+        repository.sortLibBy(key);
     }
 }

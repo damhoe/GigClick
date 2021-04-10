@@ -14,6 +14,7 @@
     <color name="colorAccentLight">@color/colorSecondary</color>
 
     <color name="colorBackground">#eceff1</color>
+    <color name="colorBackgroundHighlight">#eff2f3</color>
     <color name="colorBackgroundLight">#d7dadf</color>
     <color name="colorBackgroundDark">#cfd8dc</color>
 
@@ -33,9 +34,11 @@
     <color name="colorHighlightDark">@color/colorPrimaryLight</color>
     <color name="colorHighlightSuperDark">#14ffffff</color>
 
+    <color name="colorClock">@color/colorSecondaryAccent</color>
 
     <!-- Brand colors -->
     <color name="gigGrey">#37464f</color>
     <color name="gigYellow">#f9a825</color>
+    <color name="gigRed">#DC143C</color>
 
 </resources>
