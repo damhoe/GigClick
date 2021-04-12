@@ -2,6 +2,8 @@ package com.damhoe.gigclick.ui.library;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.damhoe.gigclick.INotifyItemClickListener;
+import com.damhoe.gigclick.MainActivity;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.Track;
@@ -45,6 +48,8 @@ import com.damhoe.gigclick.ui.GigClickTouchCallback;
 import com.damhoe.gigclick.ui.TrackItemDivider;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.transition.MaterialContainerTransform;
+import com.google.android.material.transition.MaterialElevationScale;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,19 +66,22 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
 
     private boolean fabIsExpanded = false   ;
 
-    Transition transition;
+    MaterialContainerTransform transition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(LibraryViewModel.class);
 
+        //
         postponeEnterTransition();
 
-        Transition returnTransition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
-        setSharedElementReturnTransition(returnTransition);
-
-        transition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
+        transition = new MaterialContainerTransform();
+        transition.setScrimColor(getResources().getColor(R.color.colorBackgroundDark, null));
+        transition.setAllContainerColors(getResources().getColor(R.color.colorBackground));
+        transition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
         setSharedElementEnterTransition(transition);
+
+        setReturnTransition(transition);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -81,21 +89,22 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (binding == null) {
-            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_set, container, false);
-
-            String transitionIdTitle = SetFragmentArgs.fromBundle(getArguments()).getSetTitle();
-            String transitionIdDate = SetFragmentArgs.fromBundle(getArguments()).getSetDate();
-            String transitionIdNTracks = SetFragmentArgs.fromBundle(getArguments()).getSetNtracks();
-            ViewCompat.setTransitionName(binding.textTitle, transitionIdTitle);
-            ViewCompat.setTransitionName(binding.textDate, transitionIdDate);
-            ViewCompat.setTransitionName(binding.textNTracks, transitionIdNTracks);
-        }
-
+        binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.fragment_set, container, false);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
+        ((MainActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_close_24dp, null));
+
+        adapter = new TrackAdapter(this);
+        binding.recycler.setAdapter(adapter);
+        binding.recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        //binding.recycler.addItemDecoration(new TrackItemDivider(getContext(), DividerItemDecoration.VERTICAL));
+        GigClickTouchCallback callback = new GigClickTouchCallback(adapter);
+        helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(binding.recycler);
+
         binding.recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int scrollY = 0;
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -108,6 +117,12 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
                         break;
 
                 }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                viewModel.updateScrollYSet(dy);
             }
         });
 
@@ -195,6 +210,10 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
             binding.fabMore.callOnClick();
         });
 
+        binding.iconClose.setOnClickListener(view -> {
+            findNavController().navigateUp();
+        });
+
         return binding.getRoot();
     }
 
@@ -236,19 +255,14 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (adapter == null) {
-            adapter = new TrackAdapter(this);
-            binding.recycler.setAdapter(adapter);
-            binding.recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            //binding.recycler.addItemDecoration(new TrackItemDivider(getContext(), DividerItemDecoration.VERTICAL));
-            GigClickTouchCallback callback = new GigClickTouchCallback(adapter);
-            helper = new ItemTouchHelper(callback);
-            helper.attachToRecyclerView(binding.recycler);
-        }
         //adapter.notifyDataSetChanged();
         startPostponedEnterTransition();
 
         viewModel.getSetLD().observe(getViewLifecycleOwner(), this::updateUI);
+        viewModel.getScrollYSet().observe(getViewLifecycleOwner(), scrollY -> {
+            binding.titlePlaceholder.setVisibility(scrollY > 0 ? View.VISIBLE: View.INVISIBLE);
+            binding.notScroll.setElevation(scrollY > 0 ? 10f: 0f);
+        });
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -282,19 +296,22 @@ public class SetFragment extends Fragment implements INotifyItemClickListener {
     public void notifyClick(int position, RecyclerView.ViewHolder view) {
         viewModel.selectTrack(position);
 
-        TrackAdapter.TrackViewHolder holder = (TrackAdapter.TrackViewHolder) view;
-        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.source_exit_transition));
+        Transition exitTransition = new MaterialElevationScale(false);
+        Transition reenterTransition = new MaterialElevationScale(true);
+        exitTransition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
+        reenterTransition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
+
+        setExitTransition(exitTransition);
+        setReenterTransition(reenterTransition);
+
+        String transitionName = getString(R.string.track_detail_transition_name);
 
         // go to set fragment
         FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-                .addSharedElement(holder.title, holder.title.getTransitionName())
-                .addSharedElement(holder.bpm, holder.bpm.getTransitionName())
+                .addSharedElement(view.itemView, transitionName)
                 .build();
 
-        SetFragmentDirections.ActionSetFragmentToTrackFragment action = SetFragmentDirections.actionSetFragmentToTrackFragment(
-                holder.title.getTransitionName(), holder.bpm.getTransitionName());
-
-        ((TransitionSet) SetFragment.this.getExitTransition()).excludeTarget((View) holder.itemView, true);
+        SetFragmentDirections.DetailsTrackAction action = SetFragmentDirections.detailsTrackAction(adapter.getItemId(position));
 
         findNavController().navigate(action, extras);
     }

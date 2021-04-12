@@ -7,8 +7,8 @@ import java.util.Locale;
 public class Tempo {
 
     public final static double DEFAULT_BPM = 120.; // max > default > min
-    public static final double MAX_BPM = 280.999;
-    public static final double MIN_BPM = 40.;
+    public static final int MAX_BPM = 280;
+    public static final int MIN_BPM = 40;
 
     double bpm;
     String label;
@@ -25,12 +25,19 @@ public class Tempo {
     }
 
     public boolean setBpm(double bpm) {
-        if ((MAX_BPM >= bpm) && (MIN_BPM <= bpm)) {
-            this.bpm = bpm;
-            updateLabel();
-            return true;
+        boolean b = true;
+        this.bpm = bpm;
+
+        if ((int) this.bpm > MAX_BPM) {
+            b = false;
+            this.bpm = MAX_BPM;
+        } else if ((int) this.bpm < MIN_BPM) {
+            b = false;
+            this.bpm = MIN_BPM;
         }
-        return false;
+
+        updateLabel();
+        return b;
     }
 
     public double getBpm() {

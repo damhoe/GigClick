@@ -92,10 +92,6 @@ public class LiveViewModel extends ViewModel {
         repository.setRunState(isRunning);
     }
 
-    public LiveData<Tempo> getTempoLD() {
-        return repository.getTempoLD();
-    }
-
     public LiveData<Double> getxLD() {
         return xLD;
     }

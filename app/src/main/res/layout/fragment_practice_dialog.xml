@@ -3,24 +3,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.damhoe.gigclick.ui.metronome.PracticeViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/colorBackground"
         tools:context=".ui.metronome.PracticeDialog">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="8dp"
+            android:background="@color/colorBackground"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/GigClickTheme.IconButton"
+                android:id="@+id/icon_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:icon="@drawable/ic_close_24dp"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_practice_dialog"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Headline6"
+                android:layout_marginStart="24dp"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="@id/icon_close"
+                app:layout_constraintBottom_toBottomOf="@id/icon_close"
+                app:layout_constraintStart_toEndOf="@id/icon_close"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/colorAccent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/label_speed_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
             android:text="@string/label_speed_up"
-            android:textAllCaps="true"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="14sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header"
              />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -33,84 +79,93 @@
             android:layout_marginStart="24dp"
             />
 
-        <TextView
-            android:id="@+id/label_every"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/speed_up_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/every"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
-            app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
-            app:layout_constraintEnd_toStartOf="@id/speed_up_bar_picker"
-            android:layout_marginEnd="8dp"
-            />
-
-        <TextView
-            android:id="@+id/label_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bar"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
-            app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
-            app:layout_constraintStart_toEndOf="@id/speed_up_bar_picker"
-            android:layout_marginStart="8dp"
-            />
-
-        <NumberPicker
-            android:id="@+id/speed_up_bar_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/GigClickTheme.Picker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/speed_up_delta_picker"
+            android:background="@color/colorBackground"
             app:layout_constraintTop_toBottomOf="@id/label_speed_up"
-            android:layout_marginEnd="24dp"
-            />
+            >
 
-        <TextView
-            android:id="@+id/label_by"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/by"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
-            app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
-            app:layout_constraintEnd_toStartOf="@id/speed_up_delta_picker"
-            android:layout_marginEnd="8dp"
-            />
+            <TextView
+                android:id="@+id/label_every"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/every"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
+                app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
+                app:layout_constraintEnd_toStartOf="@id/speed_up_bar_picker"
+                android:layout_marginEnd="8dp"
+                />
 
-        <TextView
-            android:id="@+id/label_bpm_speed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_bpm"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
-            app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
-            app:layout_constraintStart_toEndOf="@id/speed_up_delta_picker"
-            android:layout_marginStart="8dp"
-            />
+            <TextView
+                android:id="@+id/label_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bar"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
+                app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
+                app:layout_constraintStart_toEndOf="@id/speed_up_bar_picker"
+                android:layout_marginStart="8dp"
+                />
 
-        <NumberPicker
-            android:id="@+id/speed_up_delta_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/GigClickTheme.Picker"
-            app:layout_constraintStart_toEndOf="@id/speed_up_bar_picker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
-            />
+            <NumberPicker
+                android:id="@+id/speed_up_bar_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/GigClickTheme.Picker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/speed_up_delta_picker"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="24dp"
+                android:visibility="visible"
+                />
+
+            <TextView
+                android:id="@+id/label_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/by"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
+                app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
+                app:layout_constraintEnd_toStartOf="@id/speed_up_delta_picker"
+                android:layout_marginEnd="8dp"
+                />
+
+            <TextView
+                android:id="@+id/label_bpm_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_bpm"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
+                app:layout_constraintBottom_toBottomOf="@id/speed_up_bar_picker"
+                app:layout_constraintStart_toEndOf="@id/speed_up_delta_picker"
+                android:layout_marginStart="8dp"
+                />
+
+            <NumberPicker
+                android:id="@+id/speed_up_delta_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/GigClickTheme.Picker"
+                app:layout_constraintStart_toEndOf="@id/speed_up_bar_picker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/speed_up_bar_picker"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/label_mute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_mute"
-            android:textSize="14sp"
-            android:textColor="@color/colorTextDisabled"
-            android:textAllCaps="true"
-            app:layout_constraintTop_toBottomOf="@id/speed_up_bar_picker"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
+            app:layout_constraintTop_toBottomOf="@id/speed_up_content"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp" />
@@ -125,74 +180,86 @@
             android:layout_marginStart="24dp"
             />
 
-        <TextView
-            android:id="@+id/label_every_mute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/play"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/play_bars_picker"
-            app:layout_constraintBottom_toBottomOf="@id/play_bars_picker"
-            app:layout_constraintEnd_toStartOf="@id/play_bars_picker"
-            android:layout_marginEnd="8dp"
-            />
-
-        <TextView
-            android:id="@+id/label_bar_mute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bars"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/play_bars_picker"
-            app:layout_constraintBottom_toBottomOf="@id/play_bars_picker"
-            app:layout_constraintStart_toEndOf="@id/play_bars_picker"
-            android:layout_marginStart="8dp"
-            />
-
-        <NumberPicker
-            android:id="@+id/play_bars_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/GigClickTheme.Picker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/mute_bars_picker"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mute_content"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/colorBackground"
+            android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/label_mute"
-            android:layout_marginEnd="24dp"
-            />
+            >
 
-        <TextView
-            android:id="@+id/label_for"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mute"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/mute_bars_picker"
-            app:layout_constraintBottom_toBottomOf="@id/mute_bars_picker"
-            app:layout_constraintEnd_toStartOf="@id/mute_bars_picker"
-            android:layout_marginEnd="8dp"
-            />
+            <TextView
+                android:id="@+id/label_every_mute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/play"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/play_bars_picker"
+                app:layout_constraintBottom_toBottomOf="@id/play_bars_picker"
+                app:layout_constraintEnd_toStartOf="@id/play_bars_picker"
+                android:layout_marginEnd="8dp"
+                />
 
-        <TextView
-            android:id="@+id/label_mute_delta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bars"
-            android:textSize="14sp"
-            app:layout_constraintTop_toTopOf="@id/mute_bars_picker"
-            app:layout_constraintBottom_toBottomOf="@id/mute_bars_picker"
-            app:layout_constraintStart_toEndOf="@id/mute_bars_picker"
-            android:layout_marginStart="8dp"
-            />
+            <TextView
+                android:id="@+id/label_bar_mute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bars"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/play_bars_picker"
+                app:layout_constraintBottom_toBottomOf="@id/play_bars_picker"
+                app:layout_constraintStart_toEndOf="@id/play_bars_picker"
+                android:layout_marginStart="8dp"
+                />
 
-        <NumberPicker
-            android:id="@+id/mute_bars_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:theme="@style/GigClickTheme.Picker"
-            app:layout_constraintStart_toEndOf="@id/play_bars_picker"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/play_bars_picker"
-            />
+            <NumberPicker
+                android:id="@+id/play_bars_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/GigClickTheme.Picker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/mute_bars_picker"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="24dp"
+                />
+
+            <TextView
+                android:id="@+id/label_for"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mute"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/mute_bars_picker"
+                app:layout_constraintBottom_toBottomOf="@id/mute_bars_picker"
+                app:layout_constraintEnd_toStartOf="@id/mute_bars_picker"
+                android:layout_marginEnd="8dp"
+                />
+
+            <TextView
+                android:id="@+id/label_mute_delta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bars"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                app:layout_constraintTop_toTopOf="@id/mute_bars_picker"
+                app:layout_constraintBottom_toBottomOf="@id/mute_bars_picker"
+                app:layout_constraintStart_toEndOf="@id/mute_bars_picker"
+                android:layout_marginStart="8dp"
+                />
+
+            <NumberPicker
+                android:id="@+id/mute_bars_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/GigClickTheme.Picker"
+                app:layout_constraintStart_toEndOf="@id/play_bars_picker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/play_bars_picker"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_apply"

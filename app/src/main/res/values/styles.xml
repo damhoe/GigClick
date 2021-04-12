@@ -16,16 +16,20 @@
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
 
+        <item name="android:textColorSecondary">@color/colorTextPrimary</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorBackgroundDark</item>
         <item name="bottomNavigationStyle">@style/BottomNavigationView</item>
 
-        <item name="colorNavigationItem">@color/menu_item_color_state</item>
-        <item name="colorNavigationItemSelected">@color/colorTextSecondary</item>
-        <item name="drawableNavigationItemBackground">@drawable/menu_background_color_state</item>
-
         <item name="textInputStyle">@style/GigClickTheme.TextInputLayout</item>
+        <item name="textAppearanceBody1">@style/GigClickTheme.TextAppearance.Body1</item>
+        <item name="textAppearanceHeadline6">@style/GigClickTheme.TextAppearance.Headline6</item>
+
+        <item name="colorNavigationItemSelected">@color/colorAccent</item>
+        <item name="colorNavigationItem">@color/colorTextPrimary</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="GigClickTheme.TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline1">
@@ -33,6 +37,35 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">32sp</item>
         <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/lora_bold</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextLight</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.FrontBpm" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">58sp</item>
+        <item name="android:textColor">@color/colorText</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Body2" parent="" > <!-- Used for navigation drawer subtitle -->
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
     </style>
 
     <style name="GigClickTheme.TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
@@ -44,9 +77,16 @@
 
     <style name="GigClickTheme.TextAppearance.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/lora</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorTextWeak</item>
+    </style>
+
+    <style name="GigClickTheme.TextAppearance.Disabled" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextDisabled</item>
     </style>
 
     <style name="GigClickTheme.TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
@@ -89,19 +129,20 @@
     </style>
 
     <style name="GigClickTheme.AlertDialog.TitleText" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textColor">@color/colorPrimaryDark</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="GigClickTheme.AlertDialog.BodyText" parent="">
-        <item name="android:textColor">@color/colorTextWeak</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lora_bold</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="GigClickTheme.AlertDialog.BodyText" parent="">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">@font/lora</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+    </style>
 
     <style name="RoundShapeAppearance" parent="">
         <item name="cornerFamily">rounded</item>
@@ -113,15 +154,23 @@
         <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
+    <style name="GigClickTheme.TextAppearance.Button" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:fontFamily">@font/lora</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="GigClickTheme.PositiveButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="backgroundTint">@color/positive_button_state</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textAppearance">@style/GigClickTheme.TextAppearance.Button</item>
         <item name="rippleColor">@color/colorPrimaryLight</item>
         <item name="shapeAppearanceOverlay">@style/GigClickTheme.ButtonShapeAppearance</item>
     </style>
 
     <style name="GigClickTheme.NegativeButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/negative_button_selector</item>
+        <item name="android:textAppearance">@style/GigClickTheme.TextAppearance.Button</item>
         <item name="rippleColor">@color/colorBackgroundLight</item>
     </style>
 
@@ -195,6 +244,7 @@
         <item name="rippleColor">@color/colorBackgroundDark</item>
         <item name="cornerSize">10dp</item>
         <item name="shapeAppearanceOverlay">@style/GigClickTheme.IconButtonShapeAppearance</item>
+        <item name="iconTint">@color/icon_button_color_state</item>
     </style>
 
     <!-- Button size is 56dp -->
@@ -206,10 +256,6 @@
 
 
     <style name="NavigationDrawerStyle" parent="Widget.MaterialComponents.NavigationView">
-
-        <item name="android:textSize">16sp</item><!-- text size in menu-->
-        <item name="android:fontFamily">@font/lora_bold</item>
-        <item name="colorControlNormal">@color/colorBackgroundDark</item>
 
         <!-- item size in menu-->
         <item name="android:listPreferredItemHeightSmall">48dp</item>
@@ -223,25 +269,36 @@
         <item name="android:listPreferredItemPaddingRight">8dp</item>
         <item name="listPreferredItemPaddingRight">8dp</item>
 
+        <item name="android:background">@color/colorPrimary</item>
 
-        <item name="itemIconTint">?attr/colorNavigationItem</item>
-        <item name="itemTextColor">?attr/colorNavigationItem</item>
-        <item name="itemBackground">?attr/drawableNavigationItemBackground</item>
-        <item name="itemTextAppearance">@style/GigClickTheme.TextAppearance.Body1</item>
-        <item name="textAppearanceSubtitle1">@style/GigClickTheme.TextAppearance.Overline</item>
-        <item name="text">@font/lora_bold</item>
+        <item name="itemIconTint">@color/menu_item_color_state</item>
+        <item name="itemTextColor">@color/menu_item_color_state</item>
+
+        <item name="itemShapeFillColor">@color/navigation_item_background</item>
+
+        <item name="itemTextAppearance">@style/GigClickTheme.TextAppearance.DrawerItem</item>
+
     </style>
+
+    <style name="GigClickTheme.TextAppearance.DrawerItem" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/lora</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 
     <style name="GigClickTheme.Picker" parent="Theme.MaterialComponents.Light.NoActionBar" >
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/lora</item>
         <item name="android:padding">8dp</item>
     </style>
 
     <style name="GigClickTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputLayout</item>
+        <item name="counterTextAppearance">@style/GigClickTheme.TextAppearance.Overline</item>
     </style>
 
     <style name="ThemeOverlay.App.TextInputLayout" parent="">

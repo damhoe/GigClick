@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Track;
 import com.damhoe.gigclick.databinding.FragmentTrackBinding;
+import com.google.android.material.transition.MaterialContainerTransform;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,6 +31,8 @@ public class TrackFragment extends Fragment {
     private FragmentTrackBinding binding;
     private LibraryViewModel viewModel;
 
+    MaterialContainerTransform transition;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,14 +40,13 @@ public class TrackFragment extends Fragment {
 
         postponeEnterTransition();
 
-        Transition transition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
+        transition = new MaterialContainerTransform();
+        transition.setScrimColor(getResources().getColor(R.color.colorBackgroundDark, null));
+        transition.setAllContainerColors(getResources().getColor(R.color.colorBackground));
+        transition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
         setSharedElementEnterTransition(transition);
 
-        Transition transition1 = TransitionInflater.from(getContext()).inflateTransition(R.transition.source_exit_transition);
-        setExitTransition(transition1);
-
-        Transition returnTransition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
-        setSharedElementReturnTransition(returnTransition);
+        setReturnTransition(transition);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -55,13 +57,6 @@ public class TrackFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_track, container, false);
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(getViewLifecycleOwner());
-
-        String titleId = TrackFragmentArgs.fromBundle(getArguments()).getTitleId();
-        String bpmId = TrackFragmentArgs.fromBundle(getArguments()).getBpmId();
-
-        // set transition names
-        ViewCompat.setTransitionName(binding.titleTrack, titleId);
-        ViewCompat.setTransitionName(binding.textBpm, bpmId);
 
 
         binding.buttonEdit.setOnClickListener(view -> {
@@ -75,6 +70,10 @@ public class TrackFragment extends Fragment {
         viewModel.getLibraryLD().observe(getViewLifecycleOwner(), library -> {
             long id = viewModel.getTrackLD().getValue().getId();
             viewModel.setTrack(library.getTrackById(id));
+        });
+
+        binding.iconClose.setOnClickListener(view -> {
+            findNavController().navigateUp();
         });
 
         return binding.getRoot();

@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -39,11 +40,14 @@ import com.damhoe.gigclick.Set;
 import com.damhoe.gigclick.databinding.FragmentLibraryBinding;
 import com.damhoe.gigclick.ui.GigClickTouchCallback;
 import com.damhoe.gigclick.ui.ILibraryChangeListener;
+import com.damhoe.gigclick.ui.library.LibraryFragmentDirections.DetailsSetAction;
 import com.damhoe.gigclick.ui.track.SetItemDivider;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.transition.MaterialElevationScale;
+import com.google.android.material.transition.MaterialFadeThrough;
 
 public class LibraryFragment extends Fragment implements
         INotifyItemClickListener, OnStartDragListener, ILibraryChangeListener {
@@ -61,27 +65,38 @@ public class LibraryFragment extends Fragment implements
         viewModel = new ViewModelProvider(requireActivity()).get(LibraryViewModel.class);
         postponeEnterTransition();
 
-        Transition returnTransition = TransitionInflater.from(getContext()).inflateTransition(R.transition.shared_element_transition);
-        setSharedElementReturnTransition(returnTransition);
+        MaterialFadeThrough tEnter = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setEnterTransition(tEnter);
+
+        MaterialFadeThrough tExit = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setExitTransition(tExit);
     }
 
     @SuppressWarnings("ConstantConditions")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        if (binding == null) {
-            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_library, container, false);
-        }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_library, container, false);
 
         // enable title
         mainActivity = (MainActivity) requireActivity();
         mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        adapter = new SetAdapter(this, this, this);
+        binding.recycler.setAdapter(adapter);
+        binding.recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        binding.recycler.addItemDecoration(new SetItemDivider(getContext(), DividerItemDecoration.VERTICAL));
+        GigClickTouchCallback callback = new GigClickTouchCallback(adapter);
+        helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(binding.recycler);
 
         binding.fabMore.setOnClickListener(button -> {
             viewModel.saveSet(Set.getExampleSets().get(0));
         });
 
         binding.recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int scrollY = 0;
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -95,7 +110,14 @@ public class LibraryFragment extends Fragment implements
 
                 }
             }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                viewModel.updateScrollYLib(dy);
+            }
         });
+
 
         // postponeEnterTransition();
 
@@ -112,28 +134,21 @@ public class LibraryFragment extends Fragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (adapter == null) {
-            adapter = new SetAdapter(this, this, this);
-            binding.recycler.setAdapter(adapter);
-            binding.recycler.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-            binding.recycler.addItemDecoration(new SetItemDivider(getContext(), DividerItemDecoration.VERTICAL));
-            GigClickTouchCallback callback = new GigClickTouchCallback(adapter);
-            helper = new ItemTouchHelper(callback);
-            helper.attachToRecyclerView(binding.recycler);
-        }
-
-        startPostponedEnterTransition();
-
+        binding.recycler.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                startPostponedEnterTransition();
+                binding.recycler.getChildAt(0);
+                return true;
+            }
+        });
         viewModel.getSetsLD().observe(getViewLifecycleOwner(), sets -> {
             adapter.setSets(sets);
         });
 
-//        adapter = new LibraryPagerAdapter(this, this);
-//        binding.pager.setAdapter(adapter);
-//        new TabLayoutMediator(binding.tabLayout, binding.pager, ((tab, position) -> {
-//            tab.setText(LibraryPagerAdapter.titles[position]);
-//        })).attach();
+        viewModel.getScrollYLib().observe(getViewLifecycleOwner(), scrollY -> {
+            binding.header.setVisibility(scrollY > 0 ? View.VISIBLE: View.INVISIBLE);
+        });
     }
 
     @Override
@@ -173,21 +188,28 @@ public class LibraryFragment extends Fragment implements
     @Override
     public void notifyClick(int position, RecyclerView.ViewHolder view) {
         viewModel.selectSet(position);
+        long setId = adapter.getItemId(position);
 
         SetAdapter.SetViewHolder holder = (SetAdapter.SetViewHolder) view;
-        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.source_exit_transition));
+
+        Transition exitTransition = new MaterialElevationScale(false);
+        Transition reenterTransition = new MaterialElevationScale(true);
+        exitTransition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
+        reenterTransition.setDuration(getResources().getInteger(R.integer.material_motion_duration_long_1));
+
+        setExitTransition(exitTransition);
+        setReenterTransition(reenterTransition);
+
+        String transitionName = getString(R.string.set_detail_transition_name);
 
         // go to set fragment
         FragmentNavigator.Extras extras = new FragmentNavigator.Extras.Builder()
-                .addSharedElement(holder.title, holder.title.getTransitionName())
-                .addSharedElement(holder.date, holder.date.getTransitionName())
-                .addSharedElement(holder.nTracks, holder.nTracks.getTransitionName())
+                .addSharedElement(view.itemView, transitionName)
                 .build();
 
-        LibraryFragmentDirections.DetailsSetAction action = LibraryFragmentDirections.detailsSetAction(
-                        holder.title.getTransitionName(), holder.date.getTransitionName(), holder.nTracks.getTransitionName());
+        DetailsSetAction action = LibraryFragmentDirections.detailsSetAction(setId);
 
-        ((TransitionSet) LibraryFragment.this.getExitTransition()).excludeTarget((View) holder.itemView, true);
+        //((TransitionSet) LibraryFragment.this.getExitTransition()).excludeTarget((View) holder.itemView, true);
 
         findNavController().navigate(action, extras);
     }

@@ -69,6 +69,11 @@ public class EditTrackFragment extends Fragment {
                 double bpm = 60000. / millis;
                 viewModel.setBPM(bpm);
             }
+
+            @Override
+            public void onNotifyTouch(int action) {
+
+            }
         });
 
         binding.buttonIncrease.setOnClickListener(v -> {

@@ -25,13 +25,12 @@
 
             <TextView
                 android:id="@+id/text_bpm"
-                android:layout_width="96dp"
-                android:includeFontPadding="false"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:textSize="48sp"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.FrontBpm"
                 android:text="@string/example_bpm"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,24 +39,20 @@
                 android:id="@+id/label_track_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu_light"
                 android:text="@string/label_track_number"
-                android:textAlignment="center"
-                android:textColor="@color/colorTextDisabled"
-                android:textSize="14sp"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
                 app:layout_constraintStart_toStartOf="@id/pendulum_background"
                 app:layout_constraintBottom_toBottomOf="@id/text_title"
-                app:layout_constraintTop_toTopOf="@id/text_title"/>
+                app:layout_constraintTop_toTopOf="@id/text_title"
+
+                />
 
             <TextView
                 android:id="@+id/text_track_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu_light"
                 android:text="@string/example_number"
-                android:textAlignment="center"
-                android:textColor="@color/colorTextDisabled"
-                android:textSize="14sp"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
                 android:layout_marginStart="4dp"
                 app:layout_constraintStart_toEndOf="@id/label_track_number"
                 app:layout_constraintTop_toTopOf="@+id/label_track_number"
@@ -67,12 +62,10 @@
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ubuntu_light"
                 android:text="@string/example_title"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="22sp"
-                android:layout_marginTop="8dp"
+                android:includeFontPadding="false"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="@+id/pendulum_background"
                 app:layout_constraintEnd_toEndOf="@id/pendulum_background"
                 app:layout_constraintTop_toBottomOf="@+id/text_bpm" />
@@ -82,12 +75,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_bpm"
-                android:textColor="@color/colorTextDisabled"
-                android:textSize="14sp"
-                android:layout_marginStart="0dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintStart_toEndOf="@+id/text_bpm"
-                app:layout_constraintBottom_toBottomOf="@id/text_bpm" />
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Overline"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/text_bpm"
+                app:layout_constraintEnd_toEndOf="@id/text_bpm"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <View
                 android:id="@+id/pendulum_background"
@@ -120,11 +112,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/pendulum_background"
-                app:layout_constraintStart_toStartOf="@id/pendulum_background"
+                app:layout_constraintEnd_toEndOf="@id/pendulum_background"
                 android:text="@string/label_setlist"
-                android:textColor="@color/colorTextDisabled"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Disabled"
                 android:layout_marginTop="32dp"
-                android:textSize="14sp"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -136,20 +127,21 @@
                 app:icon="@drawable/ic_round_playlist_add_black_24dp"
                 app:tint="@color/colorAccent"
                 app:layout_constraintTop_toTopOf="@id/label_recycler"
-                app:layout_constraintStart_toEndOf="@id/label_recycler"
+                app:layout_constraintStart_toStartOf="@id/text_bpm"
                 app:layout_constraintBottom_toBottomOf="@id/label_recycler"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="8dp"
                 />
 
             <TextView
                 android:id="@+id/text_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/label_recycler"
-                app:layout_constraintEnd_toEndOf="@id/pendulum_background"
+                android:includeFontPadding="false"
+                app:layout_constraintBottom_toBottomOf="@id/label_recycler"
+                app:layout_constraintStart_toStartOf="@id/pendulum_background"
                 android:text="@{viewModel.setLD.title}"
-                android:textColor="@color/colorTextDisabled"
-                android:textSize="14sp"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+                tools:text="@string/example_set"
                 />
 
             <View
@@ -167,8 +159,10 @@
                 app:layout_constraintStart_toStartOf="@id/pendulum_background"
                 app:layout_constraintTop_toTopOf="@id/text_bpm"
                 android:textSize="18sp"
-                android:format12Hour="hh:mm:ss a"
+                android:format12Hour="hh:mm a"
                 android:textColor="@color/colorClock"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
+                tools:text="@string/example_clock"
                 />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,6 +174,7 @@
             android:layout_marginTop="2dp"
             app:layout_constraintTop_toBottomOf="@id/header"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:transitionGroup="true"
             />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

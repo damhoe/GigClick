@@ -3,298 +3,272 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="?actionBarSize"
-    tools:context=".ui.metronome.MetronomeFragment">
-
-    <TextView
-        android:id="@+id/text_bpm"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textAlignment="center"
-        android:includeFontPadding="false"
-        android:textSize="56sp"
-        android:text="@string/example_bpm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/division_divider_view" />
-
-    <TextView
-        android:id="@+id/label_bpm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:text="@string/label_bpm"
-        android:textColor="@color/colorTextDisabled"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/text_bpm"
-        app:layout_constraintEnd_toEndOf="@id/text_bpm"
-        app:layout_constraintTop_toBottomOf="@id/division_divider_view" />
-
-    <TextView
-        android:id="@+id/text_tempo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        android:fontFamily="@font/overlock"
-        android:text="@string/example_tempo_label"
-        android:textAlignment="center"
-        android:textColor="@color/colorTextWeak"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/text_bpm"
-        app:layout_constraintStart_toStartOf="@+id/text_bpm"
-        app:layout_constraintTop_toBottomOf="@+id/text_bpm" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_play_black_24dp"
-        android:theme="@style/FABDark"
-        app:tint="@color/colorTextSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="48dp"
-        app:elevation="4dp"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_sounds"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:layout_constraintTop_toTopOf="@id/button_play"
-        app:layout_constraintBottom_toBottomOf="@id/button_play"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/button_play"
-        app:icon="@drawable/ic_sound_primary_24dp"
-        style="@style/GigClickTheme.IconButton"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_edit_beats"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintTop_toTopOf="@id/division_divider_view"
-        app:layout_constraintBottom_toBottomOf="@id/division_divider_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:icon="@drawable/ic_edit_primary_24dp"
-        style="@style/GigClickTheme.IconButton"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_practice"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:layout_constraintTop_toTopOf="@id/button_play"
-        app:layout_constraintBottom_toBottomOf="@id/button_play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/button_play"
-        app:icon="@drawable/ic_sandclock_black_24dp"
-        style="@style/GigClickTheme.IconButton"
-        />
-
-    <TextView
-        android:id="@+id/time_signature_view"
-        android:layout_width="56dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:textColor="@color/colorPrimaryLight"
-        android:text="@string/example_bar"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/ic_mute"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:icon="@drawable/ic_mute_primary_24dp"
-        style="@style/GigClickTheme.IconButton"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintTop_toTopOf="@id/time_signature_view"
-        app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="24dp"
-        />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/ic_speed"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        app:icon="@drawable/ic_speedometer_primary_24dp"
-        style="@style/GigClickTheme.IconButton"
-        android:clickable="false"
-        android:focusable="false"
-        app:layout_constraintTop_toTopOf="@id/time_signature_view"
-        app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="64dp"
-        />
-
-
-    <ImageView
-        android:id="@+id/practice_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_sandclock_black_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/time_signature_view"
-        app:layout_constraintTop_toTopOf="@id/time_signature_view"
-        app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
-        app:tint="@color/colorPrimaryLight"
-        android:visibility="gone"
-        />
-
-    <TextView
-        android:id="@+id/subdivisions_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/time_signature_view"
-        app:layout_constraintTop_toTopOf="@id/time_signature_view"
-        app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
-        android:text="@string/example_subdivision"
-        android:textColor="@color/colorTextDisabled"
-        android:textSize="20sp"
-        android:visibility="gone"
-        />
-
-    <ImageView
-        android:id="@+id/rotary_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/rotary_knob_background"
-        app:layout_constraintTop_toBottomOf="@id/text_tempo"
-        app:layout_constraintBottom_toTopOf="@id/button_play"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <com.damhoe.gigclick.ui.metronome.RotaryView
-        android:id="@+id/rotary_foreground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/rotary_background"
-        app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-        app:layout_constraintStart_toStartOf="@id/rotary_background"
-        app:layout_constraintEnd_toEndOf="@id/rotary_background">
-
-        <com.damhoe.gigclick.ui.RotatableImageView
-            android:id="@+id/knob"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/rotary_knob_foreground"
-            android:contentDescription="@string/content_knob" />
-
-        <com.damhoe.gigclick.ui.RotatableImageView
-            android:id="@+id/ring"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/rotary_ring_unpressed"
-            android:rotation="114"
-            android:contentDescription="@string/content_ring" />
-
-    </com.damhoe.gigclick.ui.metronome.RotaryView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_increase"
-        style="@style/GigClickTheme.IconButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_bpm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_bpm"
-        app:layout_constraintTop_toTopOf="@+id/text_bpm"
-        app:icon="@drawable/ic_round_add_24dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_increase_deactivated"
-        style="@style/GigClickTheme.IconButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:layout_constraintBottom_toBottomOf="@+id/text_bpm"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_bpm"
-        app:layout_constraintTop_toTopOf="@+id/text_bpm"
-        app:iconTint="@color/colorTextDisabled"
-        app:icon="@drawable/ic_round_add_24dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_decrease"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:adjustViewBounds="true"
-        style="@style/GigClickTheme.IconButton"
-        android:background="@drawable/invisible_button_background"
-        app:layout_constraintBottom_toBottomOf="@id/text_bpm"
-        app:layout_constraintEnd_toStartOf="@+id/text_bpm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_bpm"
-        app:icon="@drawable/ic_round_remove_24dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_decrease_deactivated"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:adjustViewBounds="true"
-        style="@style/GigClickTheme.IconButton"
-        android:background="@drawable/invisible_button_background"
-        app:layout_constraintBottom_toBottomOf="@id/text_bpm"
-        app:layout_constraintEnd_toStartOf="@+id/text_bpm"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_bpm"
-        app:iconTint="@color/colorTextDisabled"
-        app:icon="@drawable/ic_round_remove_24dp" />
-
-    <TextView
-        android:id="@+id/button_tap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/rotary_background"
-        app:layout_constraintBottom_toBottomOf="@id/rotary_background"
-        app:layout_constraintStart_toStartOf="@id/rotary_background"
-        app:layout_constraintEnd_toEndOf="@id/rotary_background"
-        android:text="@string/label_tap"
-        android:textColor="@color/colorTextDisabled"
-        android:textSize="16sp"
-        android:textStyle="italic"
-        android:textAllCaps="true"
-        android:ems="2"
-        android:gravity="center"
-        />
-
-    <com.damhoe.gigclick.ui.metronome.DivisionDividerView
-        android:id="@+id/division_divider_view"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        app:layout_constraintTop_toBottomOf="@id/beat_placeholder"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:translationZ="10dp"
-        android:background="@android:color/transparent"
-        />
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.damhoe.gigclick.Tempo"
+            alias="Tempo" />
+        <variable
+            name="viewModel"
+            type="com.damhoe.gigclick.ui.metronome.MetronomeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/beat_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/time_signature_view"
-        android:layout_marginStart="52dp"
-        android:layout_marginEnd="52dp"
-        >
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        tools:context=".ui.metronome.MetronomeFragment">
+
+        <TextView
+            android:id="@+id/text_bpm"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.FrontBpm"
+            android:textAlignment="center"
+            android:text="@{viewModel.tempoLD.bpmText}"
+            tools:text="@string/example_bpm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/division_divider_view" />
+
+        <TextView
+            android:id="@+id/label_bpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/label_bpm"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Overline"
+            app:layout_constraintStart_toStartOf="@+id/text_bpm"
+            app:layout_constraintEnd_toEndOf="@id/text_bpm"
+            app:layout_constraintTop_toBottomOf="@id/division_divider_view" />
+
+        <TextView
+            android:id="@+id/text_tempo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/example_tempo_label"
+            android:text="@{viewModel.tempoLD.label}"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+            app:layout_constraintEnd_toEndOf="@+id/text_bpm"
+            app:layout_constraintStart_toStartOf="@+id/text_bpm"
+            app:layout_constraintTop_toBottomOf="@+id/text_bpm" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_play_black_24dp"
+            android:theme="@style/FABDark"
+            app:tint="@color/colorTextSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="48dp"
+            app:elevation="4dp"
+            android:contentDescription="@string/button_play_desc" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_sounds"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="@id/button_play"
+            app:layout_constraintBottom_toBottomOf="@id/button_play"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_play"
+            app:icon="@drawable/ic_sound_primary_24dp"
+            style="@style/GigClickTheme.IconButton"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_edit_beats"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="@id/division_divider_view"
+            app:layout_constraintBottom_toBottomOf="@id/division_divider_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:icon="@drawable/ic_edit_primary_24dp"
+            style="@style/GigClickTheme.IconButton"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_practice"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toTopOf="@id/button_play"
+            app:layout_constraintBottom_toBottomOf="@id/button_play"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/button_play"
+            app:icon="@drawable/ic_sandclock_black_24dp"
+            style="@style/GigClickTheme.IconButton"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/time_signature_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{viewModel.trackLD.timeSignature}"
+            tools:text="@string/example_bar"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ic_mute"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:icon="@drawable/ic_mute_primary_24dp"
+            style="@style/GigClickTheme.IconButton"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toTopOf="@id/time_signature_view"
+            app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="24dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ic_speed"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:icon="@drawable/ic_speedometer_primary_24dp"
+            style="@style/GigClickTheme.IconButton"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toTopOf="@id/time_signature_view"
+            app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="64dp"
+            />
+
+
+        <ImageView
+            android:id="@+id/practice_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sandclock_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/time_signature_view"
+            app:layout_constraintTop_toTopOf="@id/time_signature_view"
+            app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
+            app:tint="@color/colorPrimaryLight"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/subdivisions_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/time_signature_view"
+            app:layout_constraintTop_toTopOf="@id/time_signature_view"
+            app:layout_constraintBottom_toBottomOf="@id/time_signature_view"
+            android:text="@string/example_subdivision"
+            android:textColor="@color/colorTextDisabled"
+            android:textSize="20sp"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/rotary_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/rotary_knob_background"
+            app:layout_constraintTop_toBottomOf="@id/text_tempo"
+            app:layout_constraintBottom_toTopOf="@id/button_play"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <com.damhoe.gigclick.ui.metronome.RotaryView
+            android:id="@+id/rotary_foreground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/rotary_background"
+            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+            app:layout_constraintStart_toStartOf="@id/rotary_background"
+            app:layout_constraintEnd_toEndOf="@id/rotary_background">
+
+            <com.damhoe.gigclick.ui.RotatableImageView
+                android:id="@+id/knob"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/rotary_knob_foreground"
+                android:contentDescription="@string/content_knob" />
+
+            <com.damhoe.gigclick.ui.RotatableImageView
+                android:id="@+id/ring"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/rotary_ring_unpressed"
+                android:rotation="114"
+                android:contentDescription="@string/content_ring" />
+
+        </com.damhoe.gigclick.ui.metronome.RotaryView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_increase"
+            style="@style/GigClickTheme.IconButton"
+            android:enabled="@{viewModel.trackLD.tempo.bpm &lt; (int) Tempo.MAX_BPM}"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_bpm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_bpm"
+            app:layout_constraintTop_toTopOf="@+id/text_bpm"
+            app:icon="@drawable/ic_round_add_24dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_decrease"
+            style="@style/GigClickTheme.IconButton"
+            android:enabled="@{viewModel.trackLD.tempo.bpm &gt; (int) Tempo.MIN_BPM}"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_bpm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_bpm"
+            app:layout_constraintTop_toTopOf="@+id/text_bpm"
+            app:icon="@drawable/ic_round_remove_24dp" />
+
+        <TextView
+            android:id="@+id/button_tap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/rotary_background"
+            app:layout_constraintBottom_toBottomOf="@id/rotary_background"
+            app:layout_constraintStart_toStartOf="@id/rotary_background"
+            app:layout_constraintEnd_toEndOf="@id/rotary_background"
+            android:text="@string/label_tap"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Button"
+            android:textColor="@color/colorAccent"
+            />
+
+        <com.damhoe.gigclick.ui.metronome.DivisionDividerView
+            android:id="@+id/division_divider_view"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            app:layout_constraintTop_toBottomOf="@id/beat_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:translationZ="10dp"
+            android:background="@android:color/transparent"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/beat_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/time_signature_view"
+            android:layout_marginStart="52dp"
+            android:layout_marginEnd="52dp"
+            >
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

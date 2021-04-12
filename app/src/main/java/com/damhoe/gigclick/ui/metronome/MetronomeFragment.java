@@ -1,6 +1,7 @@
 package com.damhoe.gigclick.ui.metronome;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,14 +29,21 @@ import androidx.navigation.Navigation;
 
 import com.damhoe.gigclick.Beat;
 import com.damhoe.gigclick.INotifyListener;
+import com.damhoe.gigclick.PracticeOptions;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.Tempo;
 import com.damhoe.gigclick.databinding.FragmentMetronomeBinding;
+import com.google.android.material.transition.MaterialFadeThrough;
+import com.google.android.material.transition.MaterialSharedAxis;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.damhoe.gigclick.Track.MAX_BEATS;
+import static com.damhoe.gigclick.ui.metronome.MetronomeFragmentDirections.actionNavigationMetronomeToDivisionDialog;
+import static com.damhoe.gigclick.ui.metronome.MetronomeFragmentDirections.actionNavigationMetronomeToPracticeDialog;
+import static com.damhoe.gigclick.ui.metronome.MetronomeFragmentDirections.actionNavigationMetronomeToSoundDialog;
 
 public class MetronomeFragment extends Fragment {
 
@@ -41,15 +51,22 @@ public class MetronomeFragment extends Fragment {
 
     private MetronomeViewModel viewModel;
     private FragmentMetronomeBinding binding;
-        private Handler handler;
 
-        private double x, dx, phi0;
-        private long t0;
+    private double x, dx, phi0, bpm;
+    private long t0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MetronomeViewModel.class);
+
+        MaterialFadeThrough tEnter = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setEnterTransition(tEnter);
+
+        MaterialFadeThrough tExit = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setExitTransition(tExit);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -58,15 +75,14 @@ public class MetronomeFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_metronome, container,false);
-        handler = new Handler();
+        binding.setLifecycleOwner(getViewLifecycleOwner());
+        binding.setViewModel(viewModel);
 
-        ((RotaryView) binding.rotaryForeground).setNotifyListener(new INotifyListener() {
+        binding.rotaryForeground.setNotifyListener(new INotifyListener() {
             @SuppressWarnings("ConstantConditions")
             @Override
             public void onNotifyAngle(double angle) {
-                double bpm = viewModel.getTempoLD().getValue().getBpm();
-                bpm +=  angle * FACTOR_ANGLE_TO_BEATS;
-                viewModel.setBPM(bpm);
+                viewModel.setBPM(bpm + angle * FACTOR_ANGLE_TO_BEATS);
             }
 
             @Override
@@ -74,74 +90,27 @@ public class MetronomeFragment extends Fragment {
                 double bpm = 60000. / millis;
                 viewModel.setBPM(bpm);
             }
-        });
 
-        binding.buttonIncrease.setOnClickListener(v -> {
-            double bpm = viewModel.getTempoLD().getValue().getBpm();
-            bpm +=  1;
-            viewModel.setBPM(bpm);
-        });
-
-        binding.buttonDecrease.setOnClickListener(v -> {
-            double bpm = viewModel.getTempoLD().getValue().getBpm();
-            bpm -= 1;
-            viewModel.setBPM(bpm);
-        });
-
-        binding.buttonPlay.setOnClickListener(v -> {
-            boolean isPlaying = viewModel.getRunStateLD().getValue();
-            viewModel.setRunState(!isPlaying);
-        });
-
-        //binding.buttonAddBeat.setOnClickListener(v -> viewModel.addBeat());
-        //binding.buttonDeleteBeat.setOnClickListener(v -> viewModel.removeBeat());
-
-        binding.buttonSounds.setOnClickListener(view -> {
-            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToSoundDialog());
-        });
-
-        binding.buttonPractice.setOnClickListener(view -> {
-            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToPracticeDialog());
-        });
-
-        binding.buttonEditBeats.setOnClickListener(view -> {
-            findNavController().navigate(MetronomeFragmentDirections.actionNavigationMetronomeToDivisionDialog());
-        });
-
-        viewModel.getTempoLD().observe(getViewLifecycleOwner(), tempo -> {
-            binding.textBpm.setText(String.format(Locale.GERMANY, "%3.0f", tempo.getBpm()));
-            binding.textTempo.setText(tempo.getLabel());
-
-            if (tempo.getBpm() >= (int) Tempo.MAX_BPM) {
-                binding.buttonIncrease.setVisibility(View.GONE);
-                binding.buttonIncreaseDeactivated.setVisibility(View.VISIBLE);
-            } else {
-                binding.buttonIncrease.setVisibility(View.VISIBLE);
-                binding.buttonIncreaseDeactivated.setVisibility(View.GONE);
-            }
-
-            if ((int) tempo.getBpm() <= Tempo.MIN_BPM) {
-                binding.buttonDecrease.setVisibility(View.GONE);
-                binding.buttonDecreaseDeactivated.setVisibility(View.VISIBLE);
-            } else {
-                binding.buttonDecrease.setVisibility(View.VISIBLE);
-                binding.buttonDecreaseDeactivated.setVisibility(View.GONE);
+            @Override
+            public void onNotifyTouch(int action) {
+                int cPressed = ContextCompat.getColor(getContext(), R.color.colorAccentTransparent);
+                int cUnpressed = ContextCompat.getColor(getContext(), R.color.colorAccent);
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        binding.buttonTap.setTextColor(cPressed);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        binding.buttonTap.setTextColor(cUnpressed);
+                        break;
+                }
             }
         });
-
-        viewModel.getBeatLD().observe(getViewLifecycleOwner(), this::updateUI);
-
-        viewModel.getRunStateLD().observe(getViewLifecycleOwner(), isPlaying -> {
-            Drawable drawable;
-            if (isPlaying) {
-                startPendulumThread();
-                drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_stop_black_24dp);
-            } else {
-                drawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_play_black_24dp);
-                resetBeats();
-            }
-            binding.buttonPlay.setImageDrawable(drawable);
-        });
+        binding.buttonPlay.setOnClickListener(v -> {viewModel.switchRunState();});
+        binding.buttonIncrease.setOnClickListener(view -> {viewModel.setBPM(++bpm);});
+        binding.buttonDecrease.setOnClickListener(v -> {viewModel.setBPM(--bpm);});
+        binding.buttonSounds.setOnClickListener(view -> {navToSoundDialog();});
+        binding.buttonPractice.setOnClickListener(view -> {navToPracticeDialog();});
+        binding.buttonEditBeats.setOnClickListener(view -> {navToDivisionDialog();});
 
         viewModel.getFlashLD().observe(getViewLifecycleOwner(), i -> {
             if (i != -1) { // not equals no flash
@@ -154,22 +123,89 @@ public class MetronomeFragment extends Fragment {
                     Integer.parseInt(getString(R.string.default_metric))));
         });
 
-        viewModel.getPOptionsLD().observe(getViewLifecycleOwner(), options -> {
-
-            if (options.isMuted()) {
-                binding.icMute.setVisibility(View.VISIBLE);
-            } else {
-                binding.icMute.setVisibility(View.GONE);
-            }
-
-            if (options.isSpeed()) {
-                binding.icSpeed.setVisibility(View.VISIBLE);
-            } else {
-                binding.icSpeed.setVisibility(View.GONE);
-            }
-        });
-
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        viewModel.getTempoLD().observe(getViewLifecycleOwner(), this::updateUI);
+        viewModel.getBeatLD().observe(getViewLifecycleOwner(), this::updateUI);
+        viewModel.getPOptionsLD().observe(getViewLifecycleOwner(), this::updateUI);
+        viewModel.getRunStateLD().observe(getViewLifecycleOwner(), this::updateUI);
+
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void updateUI(Boolean isPlaying) {
+        Drawable drawable;
+        if (isPlaying) {
+            startPendulumThread();
+            drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_stop_black_24dp, null);
+        } else {
+            drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_black_24dp, null);
+            resetBeats();
+        }
+        binding.buttonPlay.setImageDrawable(drawable);
+    }
+
+    private void updateUI(Tempo tempo) {
+        bpm = tempo.getBpm();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void updateUI(ArrayList<Beat> beats) {
+
+        int size = beats.size();
+        if (size < 1) return;
+
+        ConstraintLayout parent = binding.beatPlaceholder;
+        parent.removeAllViews();
+
+        int[] children = new int[size];
+
+        for (Beat b: beats) {
+
+            final int idx = beats.indexOf(b);
+            View v = createBeatView(b, size, idx);
+            v.setId(View.generateViewId());
+            children[idx] = v.getId();
+            parent.addView(v);
+        }
+
+        // set constraints to the views
+        ConstraintSet set = new ConstraintSet();
+        set.clone(parent);
+        set.connect(children[0], ConstraintSet.LEFT, parent.getId(), ConstraintSet.LEFT);
+
+        for (int j=1; j<size; j++) {
+            set.connect(children[j-1], ConstraintSet.RIGHT, children[j], ConstraintSet.LEFT);
+        }
+        set.connect(children[size-1], ConstraintSet.RIGHT, parent.getId(), ConstraintSet.RIGHT);
+
+        // with two or more elements create a chain
+        if (size >= 2) {
+            set.createHorizontalChain(
+                    ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
+                    ConstraintSet.PARENT_ID, ConstraintSet.RIGHT,
+                    children, null, ConstraintSet.CHAIN_SPREAD
+            );
+        }
+        set.applyTo(parent);
+    }
+
+    private void updateUI(PracticeOptions pOptions) {
+        if (pOptions.isMuted()) {
+            binding.icMute.setVisibility(View.VISIBLE);
+        } else {
+            binding.icMute.setVisibility(View.GONE);
+        }
+
+        if (pOptions.isSpeed()) {
+            binding.icSpeed.setVisibility(View.VISIBLE);
+        } else {
+            binding.icSpeed.setVisibility(View.GONE);
+        }
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -223,46 +259,15 @@ public class MetronomeFragment extends Fragment {
                     ContextCompat.getDrawable(getContext(), drawableId)
             );
 
-//            handler.postDelayed(new Runnable() {
-//                @SuppressWarnings("ConstantConditions")
-//                @Override
-//                public void run() {
-//                    int drawableId;
-//                    switch (viewModel.getBeats().get(i).getAccent()) {
-//                        case Beat.ACCENT_HIGH:
-//                            drawableId = R.drawable.beat_accent_view;
-//                            break;
-//                        case Beat.ACCENT_MEDIUM:
-//                            drawableId = R.drawable.beat_view;
-//                            break;
-//                        case Beat.ACCENT_LOW:
-//                            drawableId = R.drawable.beat_accent_low;
-//                            break;
-//                        default:
-//                            drawableId = R.drawable.beat_off_view;
-//                    }
-//                    binding.beatPlaceholder.getChildAt(i).setBackground(
-//                            ContextCompat.getDrawable(getContext(), drawableId)
-//                    );
-//                }
-//            }, 100);
         } catch (Exception e) {
             viewModel.setFlashLD(-1);
         }
 
     }
 
-    public static int getBeatWidth(int n) {
-        final int MAX_WIDTH = 156;
-        final int MIN_WIDTH = 64;
-
-        return (int) (MIN_WIDTH + (MAX_WIDTH - MIN_WIDTH) * (double) (MAX_BEATS - n) / (MAX_BEATS - 1));
-    }
-
     public int dpToPx(int dp) {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -280,47 +285,6 @@ public class MetronomeFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void updateUI(ArrayList<Beat> beats) {
-
-        int size = beats.size();
-        if (size < 1) return;
-
-        ConstraintLayout parent = binding.beatPlaceholder;
-        parent.removeAllViews();
-
-        int[] children = new int[size];
-
-        for (Beat b: beats) {
-
-            final int idx = beats.indexOf(b);
-            View v = createBeatView(b, size, idx);
-            v.setId(View.generateViewId());
-            children[idx] = v.getId();
-            parent.addView(v);
-        }
-
-        // set constraints to the views
-        ConstraintSet set = new ConstraintSet();
-        set.clone(parent);
-        set.connect(children[0], ConstraintSet.LEFT, parent.getId(), ConstraintSet.LEFT);
-
-        for (int j=1; j<size; j++) {
-           set.connect(children[j-1], ConstraintSet.RIGHT, children[j], ConstraintSet.LEFT);
-        }
-        set.connect(children[size-1], ConstraintSet.RIGHT, parent.getId(), ConstraintSet.RIGHT);
-
-        // with two or more elements create a chain
-        if (size >= 2) {
-            set.createHorizontalChain(
-                    ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
-                    ConstraintSet.PARENT_ID, ConstraintSet.RIGHT,
-                    children, null, ConstraintSet.CHAIN_SPREAD
-            );
-        }
-        set.applyTo(parent);
     }
 
     private void startPendulumThread(){
@@ -353,7 +317,7 @@ public class MetronomeFragment extends Fragment {
 
             @SuppressWarnings("ConstantConditions")
             private void updatePendulum() throws InterruptedException {
-                f = viewModel.getTempoLD().getValue().getBpm() / 60000.; // beats per ms
+                f = viewModel.getBpm() / 60000.; // beats per ms
                 t = System.currentTimeMillis();
                 x = Math.sin(Math.PI * f * (t - t0) + phi0);
                 dx = Math.cos(Math.PI * f * (t - t0) + phi0);
@@ -361,6 +325,36 @@ public class MetronomeFragment extends Fragment {
                 Thread.sleep(DELAY);
             }
         }).start();
+    }
+
+    private void navToPracticeDialog() {
+        MaterialSharedAxis tReenter = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        tReenter.setDuration(800);
+        setReenterTransition(tReenter);
+        MaterialSharedAxis tExit = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        tExit.setDuration(800);
+        setExitTransition(tExit);
+        findNavController().navigate(actionNavigationMetronomeToPracticeDialog());
+    }
+
+    private void navToDivisionDialog() {
+        MaterialSharedAxis tReenter = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        tReenter.setDuration(800);
+        setReenterTransition(tReenter);
+        MaterialSharedAxis tExit = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        tExit.setDuration(800);
+        setExitTransition(tExit);
+        findNavController().navigate(actionNavigationMetronomeToDivisionDialog());
+    }
+
+    private void navToSoundDialog() {
+        MaterialSharedAxis tReenter = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        tReenter.setDuration(800);
+        setReenterTransition(tReenter);
+        MaterialSharedAxis tExit = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        tExit.setDuration(800);
+        setExitTransition(tExit);
+        findNavController().navigate(actionNavigationMetronomeToSoundDialog());
     }
 }
 

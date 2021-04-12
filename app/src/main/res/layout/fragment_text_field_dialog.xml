@@ -29,7 +29,8 @@
             android:maxLines="1"
             android:inputType="text"
             android:text="@string/example_set"
-            android:textSize="20sp" />
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body2"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -12,30 +12,46 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
+        android:transitionName="@string/track_detail_transition_name"
+        android:background="@color/colorBackground"
         tools:context=".ui.library.TrackFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorBackground"
-            android:elevation="4dp"
+            android:layout_height="?actionBarSize"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:background="@color/colorBackground"
+            >
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:background="@color/colorSecondary"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <com.google.android.material.button.MaterialButton
+                style="@style/GigClickTheme.IconButton"
+                android:id="@+id/icon_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:icon="@drawable/ic_close_24dp"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_track_details"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Headline6"
+                android:layout_marginStart="24dp"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="@id/icon_close"
+                app:layout_constraintBottom_toBottomOf="@id/icon_close"
+                app:layout_constraintStart_toEndOf="@id/icon_close"
+                />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title_track"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,10 +60,8 @@
             android:text="@{viewModel.trackLD.title}"
             android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            android:textAllCaps="false"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:gravity="center"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Title"
+            tools:text="@string/example_title"
             />
 
         <View
@@ -59,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:background="@color/colorBackgroundDark"
             />
 
@@ -68,39 +82,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_tempo"
-            android:textSize="14sp"
-            android:textColor="@color/colorTextDisabled"
-            android:textAllCaps="true"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintTop_toBottomOf="@id/title_placeholder"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="24dp" />
 
 
         <TextView
             android:id="@+id/text_bpm"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAlignment="center"
-            android:includeFontPadding="false"
-            android:textSize="36sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Title"
             android:text="@{viewModel.trackLD.tempo.bpmText}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_tempo" />
+            app:layout_constraintTop_toBottomOf="@id/label_tempo"
+            tools:text="@string/example_bpm"
+            />
 
         <TextView
             android:id="@+id/label_bpm"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="@string/label_bpm"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="12sp"
-            android:gravity="center"
-            android:layout_marginTop="16dp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Overline"
+            android:layout_marginBottom="7dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toEndOf="@+id/text_bpm"
-            app:layout_constraintTop_toTopOf="@id/text_bpm"
             app:layout_constraintBottom_toBottomOf="@id/text_bpm" />
 
         <TextView
@@ -110,9 +121,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/label_tempo_text"
-            android:textAllCaps="true"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="14sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_bpm" />
 
@@ -123,12 +132,14 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:gravity="center"
             android:text="@{viewModel.trackLD.tempo.label}"
-            android:textSize="18sp"
-            android:textStyle="italic"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_tempo_text" />
+            app:layout_constraintTop_toBottomOf="@id/label_tempo_text"
+            tools:text="@string/example_tempo_label"
+            />
 
         <TextView
             android:id="@+id/text_comment"
@@ -138,11 +149,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="@{viewModel.trackLD.comment}"
-            android:textSize="18sp"
-            android:textColor="@color/colorTextWeak"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_track" />
+            app:layout_constraintTop_toBottomOf="@id/title_track"
+            tools:text="@string/example_comment"
+            />
 
         <TextView
             android:id="@+id/label_beats"
@@ -151,9 +163,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/label_beats"
-            android:textAllCaps="true"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="14sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_tempo" />
 
@@ -165,9 +175,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/error_beats"
-            android:textSize="14sp"
-            android:textColor="@color/colorTextDisabled"
-            android:textStyle="italic"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_beats" />

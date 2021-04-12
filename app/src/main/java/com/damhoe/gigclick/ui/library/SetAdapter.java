@@ -119,9 +119,7 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.SetViewHolder>
         });
 
         // set the transition names
-        holder.title.setTransitionName("set_title_" + set.getId());
-        holder.date.setTransitionName("set_data_" + set.getId());
-        holder.nTracks.setTransitionName("set_ntracks_" + set.getId());
+        holder.itemView.setTransitionName("holder_trans" + set.getId());
     }
 
     @SuppressWarnings("ConstantConditions")

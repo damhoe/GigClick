@@ -35,7 +35,15 @@ public class PracticeOptions {
         updateTimeline();
     }
 
-    public void setMute(boolean mute) {
+    public PracticeOptions deepCopy() {
+        PracticeOptions mOptions = new PracticeOptions();
+        mOptions.setSpeed(speed);
+        mOptions.setMuted(mute);
+        mOptions.update(nBars, speedUpEach, deltaSpeed, nBarsSound, nBarsMuted);
+        return mOptions;
+    }
+
+    public void setMuted(boolean mute) {
         this.mute = mute;
     }
 

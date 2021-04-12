@@ -2,6 +2,7 @@ package com.damhoe.gigclick;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.res.Resources;
 import android.nfc.FormatException;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Handler handler;
 
     private int menuItem;
+    private boolean isNavigation = false;
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navView = findViewById(R.id.nav_view);
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        navView.setCheckedItem(R.id.navigation_metronome);
 
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -77,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onDrawerClosed(@NonNull View drawerView) {
-                findNavController().navigate(menuItem);
+                if (isNavigation) findNavController().navigate(menuItem);
+                isNavigation = false;
             }
 
             @Override
@@ -253,8 +259,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.isChecked()) {
+            drawer.closeDrawer(GravityCompat.START);
+            return false;
+        }
         menuItem = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
+        isNavigation = true;
         return true;
     }
 }

@@ -24,10 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/example_number"
-        android:textAppearance="@style/GigClickTheme.TextAppearance.Body2"
-        app:layout_constraintTop_toTopOf="@id/text_title"
+        android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/ic_drag"
         app:layout_constraintEnd_toEndOf="@id/ic_drag"
+        android:layout_marginTop="20dp"
         />
 
     <TextView
@@ -47,10 +48,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/example_comment"
-        android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
+        android:textAppearance="@style/GigClickTheme.TextAppearance.Body2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/text_title"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="35dp"
         />
 
     <TextView

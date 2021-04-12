@@ -6,9 +6,50 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/colorBackground"
         tools:context=".ui.metronome.SoundDialog">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="8dp"
+            android:background="@color/colorBackground"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/GigClickTheme.IconButton"
+                android:id="@+id/icon_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:icon="@drawable/ic_close_24dp"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_sound_dialog"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Headline6"
+                android:layout_marginStart="24dp"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="@id/icon_close"
+                app:layout_constraintBottom_toBottomOf="@id/icon_close"
+                app:layout_constraintStart_toEndOf="@id/icon_close"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/colorAccent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/text_bpm"
@@ -20,7 +61,7 @@
             android:ems="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/header"/>
 
         <TextView
             android:id="@+id/label_bpm"

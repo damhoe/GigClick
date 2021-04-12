@@ -33,7 +33,7 @@ public class MainViewModel extends AndroidViewModel {
 
     @SuppressWarnings("ConstantConditions")
     public int getNumberSamplesPerSplittedBeat() {
-        double bpm = repository.getTempoLD().getValue().getBpm();
+        double bpm = repository.getTempo().getBpm();
         return (int) (AudioGenerator.SAMPLES_PER_MINUTE / bpm);
     }
 
@@ -64,7 +64,7 @@ public class MainViewModel extends AndroidViewModel {
 
     @SuppressWarnings("ConstantConditions")
     public void speedUp(int deltaSpeed) {
-        double bpm = repository.getTempoLD().getValue().getBpm();
+        double bpm = repository.getTempo().getBpm();
         repository.setBPM(bpm + deltaSpeed);
     }
 }

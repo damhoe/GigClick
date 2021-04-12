@@ -26,8 +26,6 @@ public class Repository {
     private final MutableLiveData<Set> setLD;
     private final MutableLiveData<Integer> flashLD;
 
-    private final LiveData<Tempo> tempoLD;
-
     @SuppressWarnings("ConstantConditions")
     public Repository() {
         libraryLD.setValue(Library.createEmptyLibrary());
@@ -38,7 +36,6 @@ public class Repository {
         flashLD.setValue(-1);
         trackLD = new MutableLiveData<>();
         trackLD.postValue(new Track());
-        tempoLD = Transformations.map(getTrackLD(), Track::getTempo);
         setLD = new MutableLiveData<>();
         setLD.setValue(new Set("Example Set"));
     }
@@ -118,8 +115,9 @@ public class Repository {
         trackLD.postValue(track);
     }
 
-    public LiveData<Tempo> getTempoLD() {
-        return tempoLD;
+    @SuppressWarnings("ConstantConditions")
+    public Tempo getTempo() {
+        return trackLD.getValue().getTempo();
     }
 
     public LiveData<Set> getSetLD() {

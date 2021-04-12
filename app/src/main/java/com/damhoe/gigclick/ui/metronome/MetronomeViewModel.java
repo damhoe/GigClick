@@ -20,10 +20,6 @@ public class MetronomeViewModel extends ViewModel {
         repository = Repository.getInstance();
     }
 
-    public LiveData<Tempo> getTempoLD() {
-        return repository.getTempoLD();
-    }
-
     public Track getTrack() {
         return repository.getTrackLD().getValue();
     }
@@ -45,6 +41,14 @@ public class MetronomeViewModel extends ViewModel {
         return Transformations.map(repository.getTrackLD(), Track::getpOptions);
     }
 
+    public LiveData<Tempo> getTempoLD() {
+        return Transformations.map(repository.getTrackLD(), Track::getTempo);
+    }
+
+    public LiveData<Track> getTrackLD() {
+        return repository.getTrackLD();
+    }
+
     public void setBPM(double bpm) {
         repository.setBPM(bpm);
     }
@@ -56,6 +60,9 @@ public class MetronomeViewModel extends ViewModel {
     public void setRunState(boolean state) {
         repository.setRunState(state);
     }
+
+    @SuppressWarnings("ConstantConditions")
+    public void switchRunState() {repository.setRunState(!getRunStateLD().getValue());}
 
     public void setBPB(int bpb) {
         repository.setBPB(bpb);
@@ -73,12 +80,16 @@ public class MetronomeViewModel extends ViewModel {
         repository.nextAccent(index);
     }
 
+    public double getBpm() {
+        return getTrack().getTempo().getBpm();
+    }
+
     @SuppressWarnings("ConstantConditions")
     public void setPracticeOptions(boolean bs, boolean bm, int n, int su, int ds, int m, int nm) {
         Track track = repository.getTrackLD().getValue();
         PracticeOptions options = track.getpOptions();
         options.update(n, su, ds, m, nm);
-        options.setMute(bm);
+        options.setMuted(bm);
         options.setSpeed(bs);
         track.setpOptions(options);
         repository.setTrack(track);

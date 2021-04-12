@@ -35,6 +35,7 @@ import com.damhoe.gigclick.databinding.FragmentLiveBinding;
 import com.damhoe.gigclick.ui.TrackItemDivider;
 import com.damhoe.gigclick.ui.library.SetAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.transition.MaterialFadeThrough;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -54,6 +55,14 @@ public class LiveFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(LiveViewModel.class);
         viewModel.setRunState(false); // stop the player when starting
+
+        MaterialFadeThrough tEnter = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setEnterTransition(tEnter);
+
+        MaterialFadeThrough tExit = new MaterialFadeThrough();
+        tEnter.setDuration((long) getResources().getInteger(R.integer.material_motion_duration_long_1));
+        setExitTransition(tExit);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -195,7 +204,7 @@ public class LiveFragment extends Fragment {
 
             @SuppressWarnings("ConstantConditions")
             private void updatePendulum() throws InterruptedException {
-                f = viewModel.getTempoLD().getValue().getBpm() / 60000.; // beats per ms
+                f = viewModel.getTrackLD().getValue().getTempo().getBpm() / 60000.; // beats per ms
                 t = System.currentTimeMillis();
                 x = Math.sin(Math.PI * f * (t - t0) + phi0);
                 //dx = Math.cos(Math.PI * f * (t - t0) + phi0);

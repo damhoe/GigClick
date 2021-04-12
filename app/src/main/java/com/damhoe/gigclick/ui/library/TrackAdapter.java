@@ -62,8 +62,7 @@ public class TrackAdapter extends RecyclerView.Adapter<com.damhoe.gigclick.ui.li
         });
 
         // set transition names
-        holder.title.setTransitionName("track_title_" + position);
-        holder.bpm.setTransitionName("track_bpm_" + position);
+        holder.itemView.setTransitionName("track_holder_" + position);
     }
 
     @SuppressWarnings("ConstantConditions")

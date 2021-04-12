@@ -129,4 +129,13 @@
     <string name="msg_edit_track_comment_dialog">Write a short text!</string>
     <string name="set_img_desc">set profile image</string>
     <string name="toast_set_deleted">$1%s was deleted</string>
+    <string name="example_clock">10:32 AM</string>
+    <string name="button_play_desc">button play and stop</string>
+    <string name="set_detail_transition_name">set_to_set_detail_transition</string>
+    <string name="icon_close">icon close action</string>
+    <string name="title_practice_dialog">Practice Options</string>
+    <string name="title_division_dialog">Division Settings</string>
+    <string name="title_sound_dialog">Sound Settings</string>
+    <string name="title_set_details">Set Details</string>
+    <string name="track_detail_transition_name">set to track detail transition</string>
 </resources>

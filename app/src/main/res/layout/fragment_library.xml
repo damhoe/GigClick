@@ -16,6 +16,7 @@
             android:layout_height="2dp"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/colorBackground"
+            android:visibility="invisible"
             android:elevation="4dp">
 
             <View
@@ -33,12 +34,14 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:overScrollMode="always"
+            android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/header"
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:clipToPadding="false"
+            android:transitionGroup="true"
+            android:fadingEdge="none"
             />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

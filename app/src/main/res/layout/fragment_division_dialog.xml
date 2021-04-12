@@ -6,21 +6,61 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/colorBackground"
         tools:context=".ui.metronome.DivisionDialog">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="8dp"
+            android:background="@color/colorBackground"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/GigClickTheme.IconButton"
+                android:id="@+id/icon_close"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:icon="@drawable/ic_close_24dp"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_division_dialog"
+                android:textAppearance="@style/GigClickTheme.TextAppearance.Headline6"
+                android:layout_marginStart="24dp"
+                android:includeFontPadding="false"
+                app:layout_constraintTop_toTopOf="@id/icon_close"
+                app:layout_constraintBottom_toBottomOf="@id/icon_close"
+                app:layout_constraintStart_toEndOf="@id/icon_close"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/colorAccent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/label_time_signature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:text="@string/label_time_signature"
-            android:textAllCaps="true"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="14sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/header"/>
 
         <NumberPicker
             android:id="@+id/np_beats_bar"
@@ -37,8 +77,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/default_metric"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="18sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@id/np_beats_bar"
             app:layout_constraintStart_toEndOf="@id/slash"
@@ -49,8 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/slash"
-            android:textColor="@color/colorTextDisabled"
-            android:textSize="24sp"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Body1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/np_beats_bar"
@@ -62,22 +100,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_subdivisions"
-            android:textSize="14sp"
-            android:textColor="@color/colorTextDisabled"
-            android:textAllCaps="true"
+            android:textAppearance="@style/GigClickTheme.TextAppearance.Subtitle"
             app:layout_constraintTop_toBottomOf="@id/np_beats_bar"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Not yet implemented."
+            android:text="Not implemented."
             app:layout_constraintTop_toBottomOf="@id/label_subdivisions"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
             />
 
         <com.google.android.material.button.MaterialButton

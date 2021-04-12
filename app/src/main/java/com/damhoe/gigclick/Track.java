@@ -1,9 +1,11 @@
 package com.damhoe.gigclick;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class Track {
@@ -168,6 +170,10 @@ public class Track {
 
     public int getBPB() {
         return bpb;
+    }
+
+    public String getTimeSignature() {
+        return String.format(Locale.GERMANY, "%d / 4", bpb);
     }
 
     public PracticeOptions getpOptions() {

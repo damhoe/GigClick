@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_metronome">
+    app:startDestination="@+id/navigation_metronome"
+    >
 
     <fragment
         android:id="@+id/navigation_library"
@@ -19,7 +20,7 @@
     <fragment
         android:id="@+id/navigation_metronome"
         android:name="com.damhoe.gigclick.ui.metronome.MetronomeFragment"
-        android:label="@string/title_metronome"
+        android:label=""
         tools:layout="@layout/fragment_metronome" >
         <action
             android:id="@+id/action_navigation_metronome_to_divisionDialog"
@@ -36,14 +37,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_edit"
-        android:name="com.damhoe.gigclick.ui.track.EditTrackFragment"
-        android:label="@string/title_edit"
-        tools:layout="@layout/fragment_edit" />
-    <fragment
         android:id="@+id/divisionDialog"
         android:name="com.damhoe.gigclick.ui.metronome.DivisionDialog"
-        android:label="Divisions"
+        android:label=""
         tools:layout="@layout/fragment_division_dialog" />
 
     <fragment
@@ -55,26 +51,22 @@
     <fragment
         android:id="@+id/practiceDialog"
         android:name="com.damhoe.gigclick.ui.metronome.PracticeDialog"
-        android:label="Practice"
+        android:label=""
         tools:layout="@layout/fragment_practice_dialog"/>
     <fragment
         android:id="@+id/menu_about"
-        android:name="com.damhoe.gigclick.AboutFragment"
+        android:name="com.damhoe.gigclick.ui.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/setFragment"
         android:name="com.damhoe.gigclick.ui.library.SetFragment"
-        android:label="@string/title_set"
+        android:label=""
         tools:layout="@layout/fragment_set" >
-        <argument android:name="set_title"
-            app:argType="string" />
-        <argument android:name="set_date"
-            app:argType="string" />
-        <argument android:name="set_ntracks"
-            app:argType="string" />
+        <argument android:name="set_id"
+            app:argType="long" />
         <action
-            android:id="@+id/action_setFragment_to_trackFragment"
+            android:id="@+id/details_track_action"
             app:destination="@id/trackFragment"
             />
         <action
@@ -87,10 +79,8 @@
         android:name="com.damhoe.gigclick.ui.library.TrackFragment"
         android:label="@string/title_track_details"
         tools:layout="@layout/fragment_track">
-        <argument android:name="title_id"
-            app:argType="string" />
-        <argument android:name="bpm_id"
-            app:argType="string" />
+        <argument android:name="track_id"
+            app:argType="long" />
         <action
             android:id="@+id/action_trackFragment_to_editTrackFragment"
             app:destination="@id/editTrackFragment"
@@ -100,7 +90,7 @@
     <fragment
         android:id="@+id/editTrackFragment"
         android:name="com.damhoe.gigclick.ui.track.EditTrackFragment"
-        android:label="@string/title_edit_track"
+        android:label=""
         tools:layout="@layout/fragment_edit_track" >
         <argument
             android:name="track_id"

@@ -26,7 +26,8 @@
     <color name="colorTextDisabled">#6137464f</color>
     <color name="colorTextHighlight">@color/colorPrimaryDark</color>
     <color name="colorTextSecondary">#000</color>
-    <color name="colorTextPrimary">#fff</color>
+    <color name="colorTextPrimary">#8fff</color>
+    <color name="colorTextLight">#cc37464f</color>
 
     <color name="background_layer">#fff</color>
 

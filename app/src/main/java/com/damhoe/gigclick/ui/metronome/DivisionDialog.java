@@ -16,6 +16,7 @@ import com.damhoe.gigclick.Division;
 import com.damhoe.gigclick.MainActivity;
 import com.damhoe.gigclick.R;
 import com.damhoe.gigclick.databinding.FragmentDivisionDialogBinding;
+import com.google.android.material.transition.MaterialSharedAxis;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,10 +32,21 @@ public class DivisionDialog extends Fragment {
         // Required empty public constructor
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MetronomeViewModel.class);
+
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
+        MaterialSharedAxis tEnter = new MaterialSharedAxis(MaterialSharedAxis.Z, true);
+        tEnter.setDuration(800);
+        setEnterTransition(tEnter);
+
+        MaterialSharedAxis tReturn = new MaterialSharedAxis(MaterialSharedAxis.Z, false);
+        tReturn.setDuration(800);
+        setReturnTransition(tReturn);
     }
 
     @SuppressWarnings({"ConstantConditions", "MalformedFormatString"})
@@ -71,6 +83,10 @@ public class DivisionDialog extends Fragment {
             findNavController().navigateUp();
         });
 
+        binding.iconClose.setOnClickListener(view -> {
+            findNavController().navigateUp();
+        });
+
         viewModel.getTempoLD().observe(getViewLifecycleOwner(), tempo -> {
             //binding.textBpm .setText(String.format(Locale.GERMANY, "%3.0f", tempo.getBpm()));
         });
@@ -83,10 +99,11 @@ public class DivisionDialog extends Fragment {
         return Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //mainActivity.findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public static int findIndex(String arr[], int t) {

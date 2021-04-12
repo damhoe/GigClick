@@ -90,6 +90,7 @@ public class RotaryView extends FrameLayout {
         switch (event.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
+                listener.onNotifyTouch(MotionEvent.ACTION_DOWN);
 
                 ringRes = R.drawable.rotary_ring_full_pressed;
 
@@ -135,6 +136,7 @@ public class RotaryView extends FrameLayout {
             case MotionEvent.ACTION_UP:
                 ringRes = R.drawable.rotary_ring_unpressed;
                 updateViews();
+                listener.onNotifyTouch(MotionEvent.ACTION_UP);
         }
 
         previousAlpha = alpha;

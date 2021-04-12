@@ -25,6 +25,8 @@ public class LibraryViewModel extends AndroidViewModel {
     private final Repository repository = Repository.getInstance();
     private final MutableLiveData<Set> setLD = new MutableLiveData<>(); // set which can be viewed with details and edited
     private final MutableLiveData<Track> trackLD = new MutableLiveData<>();  // track which can be viewed with details and edited
+    private final MutableLiveData<Integer> scrollYLib = new MutableLiveData<>();
+    private final MutableLiveData<Integer> scrollYSet = new MutableLiveData<>();
 
     public LiveData<ArrayList<Set>> setsLD;
 
@@ -38,6 +40,8 @@ public class LibraryViewModel extends AndroidViewModel {
         trackLD.setValue(new Track());
         source = new DbSource(application);
         repository.initLibFromDb(source);
+        scrollYLib.setValue(0);
+        scrollYSet.setValue(0);
     }
 
     public void sortSets(int key) {
@@ -54,6 +58,29 @@ public class LibraryViewModel extends AndroidViewModel {
     }
     public void setTrack(Track track) {
         trackLD.postValue(track);
+    }
+    public LiveData<Integer> getScrollYLib() {
+        return scrollYLib;
+    }
+
+    public LiveData<Integer> getScrollYSet() {
+        return scrollYSet;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void updateScrollYLib(int dy) {
+        int val = scrollYLib.getValue();
+        val += dy;
+        if (val < 0) val = 0;
+        scrollYLib.postValue(val);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void updateScrollYSet(int dy) {
+        int val = scrollYSet.getValue();
+        val += dy;
+        if (val < 0) val = 0;
+        scrollYSet.postValue(val);
     }
 
     @SuppressWarnings("ConstantConditions")
